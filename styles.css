@@ -2,3 +2,13 @@
     background-color: #2e2c2c;
     color: white;
 }
+
+.details {
+    margin-top: 0rem;
+}
+
+@media (min-width: 768px) {
+    .details {
+        margin-top: 4rem;
+    }
+}
