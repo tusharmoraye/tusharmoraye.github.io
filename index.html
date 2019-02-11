@@ -12,7 +12,7 @@
 </head>
 
 <body>
-    <nav class="navbar navbar-expand-lg navbar-light bg-light fixed-top">
+    <nav class="navbar navbar-expand-lg navbar-light bg-light fixed-top" style="background-color: #e3f2fd !important;">
         <a class="navbar-brand" href="#">TM</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false"
             aria-label="Toggle navigation">
@@ -21,16 +21,16 @@
         <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav ml-auto">
                 <li class="nav-item">
-                    <a class="nav-link" href="#about">About</a>
+                    <a class="nav-link" id="about-tab" href="#about">About</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#projects">Projects</a>
+                    <a class="nav-link" id="projects-tab" href="#projects">Projects</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#experience">Experience</a>
+                    <a class="nav-link" id="experience-tab" href="#experience">Experience</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#contact">Contact</a>
+                    <a class="nav-link" id="contact-tab" href="#contact">Contact</a>
                 </li>
             </ul>
         </div>
@@ -38,19 +38,19 @@
 
     <div class="container-fluid" style="margin-top: 4rem;">
         <div class="row about-me">
-            <div class="col-md-4 col-12 text-center py-4">
+            <div class="col-lg-4 col-md-6 col-12 text-center py-4">
                 <img style="width: 18rem; height: 18rem;" class="img-fluid rounded-circle" src="https://avatars0.githubusercontent.com/u/25436413?s=460&v=4">
             </div>
-            <div class="col-md-8 col-12 text-center">
-                <span>
+            <div class="col-lg-8 col-md-6 col-12 text-center">
+                <div class="details">
                     <h1>Tushar Moraye</h1>
                     <h3>Full Stack Web Developer</h3>
-                    <p>I am a fullstack web developer in Austin, TX with a special affinity for front end development, particularly
-                        using React. I have completed the Web Development Immersive course at Galvanize, and have been doing
-                        contract work since! I am also excitedly seeking full time employment in Austin. Check out some of
-                        my work below, and please don't hesitate to contact me. I would love to connect! Also, feel free
-                        to click the red button below to grab a copy of my resume.</p>
-                </span>
+                    <p class="mt-4">
+                        Experienced Full Stack Developer with a demonstrated history of working in Information Technology industry. Skilled in Angular,
+                        React, Node.js, Express.js and MongoDB. Strong Information Technology professional with a Bachelor
+                        of Engineering (B.E) focused in Computer Science Engineering from University of Mumbai.
+                    </p>
+                </div>
             </div>
         </div>
     </div>
@@ -59,7 +59,7 @@
 
 
 
-
+    <!-- bootstrap -->
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
         crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js" integrity="sha384-wHAiFfRlMFy6i5SRaxvfOCifBUQy1xHdJ/yoi7FRNXMRBu5WHdZYu1hA6ZOblgut"
