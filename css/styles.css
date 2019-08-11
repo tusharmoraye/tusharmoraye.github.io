@@ -1,0 +1,47 @@
+body {
+    color: #606060;
+}
+
+.header {
+    color: #0D0D0D;
+}
+.about-me {
+    background-color: #2e2c2c;
+    color: white;
+}
+
+.details {
+    margin-top: 0rem;
+}
+
+@media (min-width: 768px) {
+    .details {
+        margin-top: 4rem;
+    }
+}
+
+.view-code-btn {
+    background-color: white;
+    color: black;
+    border: 1px solid black;
+    cursor: pointer;
+    width: 80%;
+    margin-left: 10%;
+    margin-right: 10%;
+    border-radius: 3px;
+}
+
+.card-body {
+    padding: 0px;
+    height: 7rem;
+}
+
+.duration {
+    float: right;
+}
+
+.profile-logo {
+    width: 48px;
+    height: 48px;
+    cursor: pointer;
+}
