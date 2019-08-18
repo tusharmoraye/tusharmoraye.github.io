@@ -45,7 +45,7 @@ function createCard(project) {
   viewCodeBtn.className = "view-code-btn";
   let link = document.createElement("a");
   link.href = project.link;
-  link.target = "_blank"
+  link.target = "_blank";
   link.appendChild(viewCodeBtn);
   card.appendChild(cardTitle);
   card.appendChild(cardBody);
