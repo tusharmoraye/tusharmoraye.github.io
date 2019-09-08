@@ -1,5 +1,11 @@
 const data = {
   projects: [
+	{
+		name: "Watch Youtube Together",
+		discription:
+		  "Web app to watch youtube with your friends. You can create a room where your friends can join to watch the video. video interactions will be reflected on everyone's screen.",
+		link: "https://github.com/tusharmoraye/WatchYoutubeTogether"
+  	},
     {
       name: "Hadoop based Face Recognition App",
       discription:
