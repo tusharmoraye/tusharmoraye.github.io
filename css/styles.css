@@ -53,3 +53,7 @@ body {
   height: 48px;
   cursor: pointer;
 }
+
+.height100 {
+	height: 100%;
+}

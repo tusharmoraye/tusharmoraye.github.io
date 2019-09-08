@@ -39,7 +39,7 @@ function createCard(project) {
   container.className =
     "col-lg-4 col-md-6 offset-md-0 col-sm-10 offset-sm-1 col-12 p-3 project";
   let card = document.createElement("div");
-  card.className = "card shadow p-3 ";
+  card.className = "card shadow p-3 height100";
   let cardTitle = document.createElement("h5");
   cardTitle.textContent = project.name;
   cardTitle.className = "card-title";
