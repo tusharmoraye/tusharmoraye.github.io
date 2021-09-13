@@ -26,6 +26,7 @@ jobs:
           VITE_MEASUREMENT_ID=${{ secrets.MEASUREMENT_ID }}
           VITE_GOOGLE_SCRIPT=${{ secrets.GOOGLE_SCRIPT }}
           EOF
+          printenv
 
       - name: Setup node
         uses: actions/setup-node@v1
