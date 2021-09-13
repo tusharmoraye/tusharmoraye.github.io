@@ -30,6 +30,8 @@ jobs:
         run: |
           npm install
           npm run build
+          touch build/.nojekyll
+          cp CNAME build/CNAME
 
       - name: Deploy 🚀
         uses: JamesIves/github-pages-deploy-action@3.5.9
