@@ -14,19 +14,6 @@ jobs:
         with:
           persist-credentials: false
 
-      - name: Create env file
-        env:
-          VITE_MEASUREMENT_ID: ${{ secrets.MEASUREMENT_ID }}
-          VITE_GOOGLE_SCRIPT: ${{ secrets.GOOGLE_SCRIPT }}
-        run: |
-          echo ${#VITE_MEASUREMENT_ID}
-          echo ${#VITE_GOOGLE_SCRIPT}
-          cat << EOF >> .env
-          VITE_DEBUG=false
-          VITE_MEASUREMENT_ID=${{ secrets.MEASUREMENT_ID }}
-          VITE_GOOGLE_SCRIPT=${{ secrets.GOOGLE_SCRIPT }}
-          EOF
-
       - name: Setup node
         uses: actions/setup-node@v1
         with:
