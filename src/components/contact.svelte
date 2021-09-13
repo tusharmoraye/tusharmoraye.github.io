@@ -4,7 +4,9 @@
 
 	import env from '../env';
 
-	let formSubmitError = false;
+	let formSubmitError = false,
+		formSubmitSuccess = false,
+		formSubmitLoading = false;
 
 	const schema = yup.object().shape({
 		name: yup.string().required('Name is required'),
@@ -20,7 +22,9 @@
 		},
 		validationSchema: schema,
 		onSubmit: (values) => {
+			formSubmitLoading = true;
 			formSubmitError = false;
+			formSubmitSuccess = false;
 
 			const body = new FormData();
 			for (let key in values) {
@@ -28,13 +32,13 @@
 			}
 
 			fetch(env.googleScript, { method: 'POST', body })
-				.then((response) =>
-					console.log('Thanks for Contacting us..! We Will Contact You Soon...', response)
-				)
-				.catch((error) => {
+				.then(() => {
+					formSubmitSuccess = true;
+				})
+				.catch(() => {
 					formSubmitError = true;
-					console.error('Error!', error.message);
-				});
+				})
+				.finally(() => (formSubmitLoading = false));
 		}
 	});
 </script>
@@ -42,55 +46,68 @@
 <section class="contact section" id="contact">
 	<div class="container">
 		<h2 class="section-title">Contact</h2>
-		<form on:submit|preventDefault={handleSubmit}>
-			<div>
-				<input
-					type="text"
-					name="email"
-					bind:value={$form.email}
-					placeholder="Email"
-					on:change={handleChange}
-				/>
+		{#if !formSubmitSuccess}
+			<form on:submit|preventDefault={handleSubmit}>
+				<div>
+					<input
+						type="text"
+						name="email"
+						bind:value={$form.email}
+						placeholder="Email"
+						on:change={handleChange}
+					/>
 
-				{#if $errors.email}
-					<span class="error">{$errors.email}</span>
+					{#if $errors.email}
+						<span class="error">{$errors.email}</span>
+					{/if}
+				</div>
+
+				<div>
+					<input
+						type="text"
+						name="name"
+						bind:value={$form.name}
+						placeholder="Name"
+						on:change={handleChange}
+					/>
+
+					{#if $errors.name}
+						<span class="error">{$errors.name}</span>
+					{/if}
+				</div>
+				<div>
+					<textarea
+						rows="5"
+						name="message"
+						bind:value={$form.message}
+						placeholder="Your message"
+						on:change={handleChange}
+					/>
+
+					{#if $errors.message}
+						<span class="error">{$errors.message}</span>
+					{/if}
+				</div>
+
+				<div>
+					<button disabled={formSubmitLoading} type="submit" class="contact__button button">
+						{#if formSubmitLoading}
+							<img class="loading-icon" src="/loading.svg" alt="loading" />
+						{:else}
+							Submit
+						{/if}
+					</button>
+				</div>
+				{#if formSubmitError}
+					<span class="error">Something went wrong. Please try again.</span>
 				{/if}
+			</form>
+		{:else}
+			<div class="success-container">
+				<img class="success-icon" src="/success.svg" alt="success" />
+				<div>Thank you! I'll contact you shortly.</div>
 			</div>
-
-			<div>
-				<input
-					type="text"
-					name="name"
-					bind:value={$form.name}
-					placeholder="Name"
-					on:change={handleChange}
-				/>
-
-				{#if $errors.name}
-					<span class="error">{$errors.name}</span>
-				{/if}
-			</div>
-			<div>
-				<textarea
-					rows="5"
-					name="message"
-					bind:value={$form.message}
-					placeholder="Your message"
-					on:change={handleChange}
-				/>
-
-				{#if $errors.message}
-					<span class="error">{$errors.message}</span>
-				{/if}
-			</div>
-
-			<div>
-				<button type="submit" class="contact__button button">Submit</button>
-			</div>
-			{#if formSubmitError}
-				<span class="error">Something went wrong. Please try again.</span>
-			{/if}
-		</form>
+		{/if}
 	</div>
 </section>
 
@@ -140,5 +157,32 @@
 		display: block;
 		font-size: 0.75rem;
 		color: var(--red);
+	}
+
+	.success-container {
+		display: flex;
+		flex-direction: column;
+		justify-content: center;
+		align-items: center;
+		color: var(--success-color);
+	}
+
+	.success-icon {
+		width: 42px;
+		height: 42px;
+		margin-bottom: 24px;
+	}
+
+	.loading-icon {
+		width: 16px;
+		height: 16px;
+		margin: auto;
+	}
+
+	.contact__button {
+		width: 120px;
+		padding-left: 0;
+		padding-right: 0;
+		text-align: center;
 	}
 </style>

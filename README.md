@@ -4,7 +4,7 @@ This is a portfolio website live on [https://www.tusharmoraye.com](https://www.t
 
 ## Prerequisite
 
-Create `.env.local` file in root with following credentials.
+Add your configurations in `.env` file.
 
 ```bash
 VITE_MEASUREMENT_ID="G-X53.." # Google analytics measurment id
