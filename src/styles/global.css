@@ -3,44 +3,46 @@
 @import "@fontsource-variable/jetbrains-mono";
 
 /* ---------------------------------------------------------------------------
-   Token layer. One palette, one accent, one radius scale for the whole page.
+   Token layer. One palette ("Dusk"), one accent, one radius scale for the whole
+   page. Neutrals are tinted toward the indigo accent rather than left neutral,
+   and the warm spark hue is the only second colour, used sparingly.
    Theme is locked at the document level via [data-theme]; sections never flip.
 --------------------------------------------------------------------------- */
 :root,
 :root[data-theme="dark"] {
-  --c-bg: #08090b;
-  --c-surface: #0e1013;
-  --c-surface-2: #14171b;
-  --c-line: #23272d;
-  --c-line-strong: #333940;
-  --c-text: #e8eaed;
-  --c-muted: #9aa1a9;
-  --c-accent: #4fd3e8;
-  --c-accent-soft: #4fd3e81f;
-  --c-accent-ink: #03222a;
-  --c-spark: #f0a868;
+  --c-bg: #08080d;
+  --c-surface: #0e0e16;
+  --c-surface-2: #15151f;
+  --c-line: #232333;
+  --c-line-strong: #333349;
+  --c-text: #eaeaf2;
+  --c-muted: #9a99ad;
+  --c-accent: #8b9bff;
+  --c-accent-soft: #8b9bff1f;
+  --c-accent-ink: #0b0f33;
+  --c-spark: #ff9e7a;
   --c-danger: #ff8f7a;
   --c-ok: #6fe0b0;
-  --grid-line: #ffffff0a;
-  --glow: #4fd3e814;
+  --grid-line: #c8ccff0a;
+  --glow: #8b9bff14;
 }
 
 :root[data-theme="light"] {
-  --c-bg: #f4f5f7;
-  --c-surface: #ffffff;
-  --c-surface-2: #eceef1;
-  --c-line: #d9dce1;
-  --c-line-strong: #b9bec6;
-  --c-text: #101317;
-  --c-muted: #545b64;
-  --c-accent: #0b6d80;
-  --c-accent-soft: #0b6d8014;
-  --c-accent-ink: #ffffff;
-  --c-spark: #9a5b23;
+  --c-bg: #f8f6f2;
+  --c-surface: #fffdfa;
+  --c-surface-2: #eeeae2;
+  --c-line: #dcd6cb;
+  --c-line-strong: #bdb5a7;
+  --c-text: #16161d;
+  --c-muted: #575466;
+  --c-accent: #3a4bc4;
+  --c-accent-soft: #3a4bc414;
+  --c-accent-ink: #fffdfa;
+  --c-spark: #b1502a;
   --c-danger: #a12a13;
   --c-ok: #0e6b4d;
-  --grid-line: #0f172a0d;
-  --glow: #0b6d800a;
+  --grid-line: #23233a12;
+  --glow: #3a4bc40a;
 }
 
 @theme inline {

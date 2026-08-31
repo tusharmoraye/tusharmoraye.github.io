@@ -104,8 +104,8 @@
 
       const uniforms = {
         uPoints: { value: Array.from({ length: NODES }, () => new THREE.Vector2(-9999, -9999)) },
-        uAccent: { value: new THREE.Color(0x4fd3e8) },
-        uSpark: { value: new THREE.Color(0xf0a868) },
+        uAccent: { value: new THREE.Color(0x8b9bff) },
+        uSpark: { value: new THREE.Color(0xff9e7a) },
         uEnergy: { value: 0 },
         uCell: { value: 7 },
         uDot: { value: 2.8 },
@@ -204,7 +204,7 @@
       // Dot colour follows the theme toggle.
       new MutationObserver(readAccent).observe(document.documentElement, {
         attributes: true,
-        attributeFilter: ["data-theme", "data-palette"],
+        attributeFilter: ["data-theme"],
       });
 
       readAccent();
