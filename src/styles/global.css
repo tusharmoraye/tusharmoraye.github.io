@@ -73,6 +73,8 @@ html {
   color-scheme: dark;
   scroll-behavior: smooth;
   -webkit-text-size-adjust: 100%;
+  overflow-x: hidden;
+  max-width: 100%;
 }
 html[data-theme="light"] { color-scheme: light; }
 
@@ -86,6 +88,15 @@ body {
   font-family: var(--font-display);
   -webkit-font-smoothing: antialiased;
   overflow-x: hidden;
+  max-width: 100%;
+  position: relative;
+  width: 100%;
+}
+
+main {
+  overflow-x: clip;
+  width: 100%;
+  max-width: 100%;
 }
 
 ::selection {

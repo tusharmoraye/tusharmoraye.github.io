@@ -22,7 +22,7 @@ const marks = [
 <section
   aria-label="Technologies used in production"
   data-stack-strip
-  class="border-y border-line bg-surface/40"
+  class="border-y border-line bg-surface/40 overflow-hidden"
 >
   <div class="shell flex flex-col gap-8 py-10 lg:flex-row lg:items-center lg:gap-14 lg:py-8">
     <p class="label-mono shrink-0">Shipped with</p>
@@ -58,18 +58,18 @@ const marks = [
   // a single row, which is the point the strip is making about the stack.
   if (strip && !reduce.matches) {
     const marks = gsap.utils.toArray<HTMLElement>(".stack-mark");
-    // No gsap.set here: a .from() reads the current value as its end state, so
-    // pre-setting opacity to 0 would animate the marks from 0 to 0.
-    // immediateRender applies the start state before first paint on its own.
+    const isMobile = window.innerWidth < 640;
+    const maxOffset = isMobile ? 25 : 60;
+    
     gsap.from(marks, {
       opacity: 0,
-      x: () => gsap.utils.random(-70, 70),
-      y: () => gsap.utils.random(-40, 40),
-      rotate: () => gsap.utils.random(-35, 35),
-      scale: 0.7,
-      duration: 0.9,
+      x: () => gsap.utils.random(-maxOffset, maxOffset),
+      y: () => gsap.utils.random(-25, 25),
+      rotate: () => gsap.utils.random(-20, 20),
+      scale: 0.8,
+      duration: 0.8,
       ease: "power3.out",
-      stagger: { each: 0.035, from: "random" },
+      stagger: { each: 0.03, from: "random" },
       scrollTrigger: { trigger: strip, start: "top 88%", once: true },
     });
   }

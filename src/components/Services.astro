@@ -81,8 +81,8 @@ import { Icon } from "astro-icon/components";
             <div class="pointer-events-none absolute -top-10 -right-10 size-80 rounded-full bg-accent/20 blur-3xl"></div>
 
             <!-- Timeline Step Progress Header -->
-            <div class="mb-5 flex items-center justify-between border-b border-line/60 pb-3 font-mono text-[11px]">
-              <div class="flex items-center gap-1 sm:gap-2">
+            <div class="mb-5 flex items-center justify-between border-b border-line/60 pb-3 font-mono text-[11px] overflow-hidden">
+              <div class="flex items-center gap-1 sm:gap-2 overflow-x-auto [scrollbar-width:none] [&::-webkit-scrollbar]:hidden py-0.5 whitespace-nowrap">
                 <span class="rag-step-pill rounded px-2 py-0.5 font-bold transition-all text-accent bg-accent/15" data-step="1">1. Query</span>
                 <span class="text-line-strong">&rarr;</span>
                 <span class="rag-step-pill rounded px-2 py-0.5 transition-all text-muted" data-step="2">2. Vector RAG</span>
@@ -91,7 +91,7 @@ import { Icon } from "astro-icon/components";
                 <span class="text-line-strong">&rarr;</span>
                 <span class="rag-step-pill rounded px-2 py-0.5 transition-all text-muted" data-step="4">4. Stream Output</span>
               </div>
-              <span class="hidden sm:inline-flex items-center gap-1.5 rounded-full bg-surface px-2.5 py-0.5 text-[10px] text-muted border border-line">
+              <span class="hidden sm:inline-flex shrink-0 items-center gap-1.5 rounded-full bg-surface px-2.5 py-0.5 text-[10px] text-muted border border-line">
                 <span class="size-1.5 rounded-full bg-ok animate-pulse"></span>
                 <span>Live RAG Loop</span>
               </span>
@@ -181,8 +181,8 @@ import { Icon } from "astro-icon/components";
             <div class="pointer-events-none absolute -bottom-10 -left-10 size-80 rounded-full bg-spark/20 blur-3xl"></div>
 
             <!-- Timeline Step Progress Header -->
-            <div class="mb-5 flex items-center justify-between border-b border-line/60 pb-3 font-mono text-[11px]">
-              <div class="flex items-center gap-1 sm:gap-2">
+            <div class="mb-5 flex items-center justify-between border-b border-line/60 pb-3 font-mono text-[11px] overflow-hidden">
+              <div class="flex items-center gap-1 sm:gap-2 overflow-x-auto [scrollbar-width:none] [&::-webkit-scrollbar]:hidden py-0.5 whitespace-nowrap">
                 <span class="perf-step-pill rounded px-2 py-0.5 font-bold transition-all text-spark bg-spark/15" data-step="1">1. TTFB Ingest</span>
                 <span class="text-line-strong">&rarr;</span>
                 <span class="perf-step-pill rounded px-2 py-0.5 transition-all text-muted" data-step="2">2. Zero CLS Render</span>
@@ -354,8 +354,8 @@ import { Icon } from "astro-icon/components";
             <div class="pointer-events-none absolute -top-10 -left-10 size-80 rounded-full bg-ok/20 blur-3xl"></div>
 
             <!-- Timeline Step Progress Header -->
-            <div class="mb-5 flex items-center justify-between border-b border-line/60 pb-3 font-mono text-[11px]">
-              <div class="flex items-center gap-1 sm:gap-2">
+            <div class="mb-5 flex items-center justify-between border-b border-line/60 pb-3 font-mono text-[11px] overflow-hidden">
+              <div class="flex items-center gap-1 sm:gap-2 overflow-x-auto [scrollbar-width:none] [&::-webkit-scrollbar]:hidden py-0.5 whitespace-nowrap">
                 <span class="stream-step-pill rounded px-2 py-0.5 font-bold transition-all text-ok bg-ok/15" data-step="1">1. Ingress</span>
                 <span class="text-line-strong">&rarr;</span>
                 <span class="stream-step-pill rounded px-2 py-0.5 transition-all text-muted" data-step="2">2. Kafka Partition</span>
@@ -373,7 +373,7 @@ import { Icon } from "astro-icon/components";
                   <span class="font-semibold text-ink">Distributed Stream Architecture</span>
                   <span class="text-ok font-semibold">● 99.99% SLA Uptime</span>
                 </div>
-                <div class="mt-3.5 grid grid-cols-4 gap-2 text-center font-mono text-[10px]">
+                <div class="mt-3.5 grid grid-cols-2 sm:grid-cols-4 gap-2 text-center font-mono text-[10px]">
                   <div class="stream-node stream-ingress rounded-lg border border-line bg-surface-2 p-2 transition-all">
                     <p class="font-bold text-ink stream-req-count">20M+</p>
                     <p class="text-[8px] text-muted">Ingress</p>
@@ -448,16 +448,19 @@ import { Icon } from "astro-icon/components";
         },
       });
 
+      const isDesktop = window.innerWidth >= 1024;
+
       tl.from(content, {
-        x: isEven ? 45 : -45,
+        x: isDesktop ? (isEven ? 40 : -40) : 0,
+        y: isDesktop ? 0 : 25,
         opacity: 0,
         duration: 0.85,
         ease: "power3.out",
       }).from(
         stage,
         {
-          scale: 0.93,
-          y: 35,
+          scale: 0.94,
+          y: 30,
           opacity: 0,
           duration: 0.9,
           ease: "power3.out",
