@@ -85,8 +85,6 @@ export const work = [
     stat: "80+",
     statLabel: "LLM evaluation tests in the release gate",
     tags: ["Vercel ai-sdk", "MCP", "React", "TypeScript"],
-    img: "/img/copilot",
-    alt: "Rows of cabled server racks, standing in for the data platform the assistant reasons over",
   },
   {
     key: "tira",
@@ -100,8 +98,6 @@ export const work = [
     stat: "20M",
     statLabel: "Visits served",
     tags: ["Kubernetes", "Kafka", "Vue.js", "Web performance"],
-    img: "/img/tira",
-    alt: "Interior of a retail store, standing in for the beauty commerce platform",
   },
   {
     key: "erasebg",
@@ -115,8 +111,6 @@ export const work = [
     stat: "100K",
     statLabel: "Daily active users",
     tags: ["Python", "Inference pipeline", "Redis", "Node.js"],
-    img: "/img/erasebg",
-    alt: "A person photographed against a plain open sky, the kind of subject and background separation the model performs",
   },
   {
     key: "glamar",
@@ -130,8 +124,6 @@ export const work = [
     stat: "3",
     statLabel: "Distribution surfaces from one runtime",
     tags: ["WebAssembly", "JS SDK", "Shopify", "Computer vision"],
-    img: "/img/glamar",
-    alt: "Cosmetics arranged on a flat surface, standing in for the virtual try on product",
   },
 ];
 

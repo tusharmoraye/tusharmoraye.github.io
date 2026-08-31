@@ -1,6 +1,8 @@
 ---
 import "../styles/global.css";
 import { site } from "../data/site";
+import { getImage } from "astro:assets";
+import ogImageSrc from "../assets/og.png";
 
 interface Props {
   title?: string;
@@ -9,7 +11,9 @@ interface Props {
 
 const { title = site.title, description = site.description } = Astro.props;
 const canonical = new URL(Astro.url.pathname, Astro.site ?? site.domain).href.replace(/\/$/, "");
-const ogImage = new URL("/og.png", Astro.site ?? site.domain).href;
+
+const optimizedOg = await getImage({ src: ogImageSrc, width: 1200, height: 630, format: "png" });
+const ogImage = new URL(optimizedOg.src, Astro.site ?? site.domain).href;
 
 const personSchema = {
   "@context": "https://schema.org",
