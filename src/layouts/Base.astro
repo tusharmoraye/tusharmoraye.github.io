@@ -64,21 +64,26 @@ const proSchema = {
     <meta name="theme-color" content="#08080d" media="(prefers-color-scheme: dark)" />
     <meta name="theme-color" content="#f8f6f2" media="(prefers-color-scheme: light)" />
 
-    <meta property="og:type" content="profile" />
+    <meta property="og:type" content="website" />
     <meta property="og:site_name" content={site.name} />
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
     <meta property="og:url" content={canonical} />
     <meta property="og:image" content={ogImage} />
+    <meta property="og:image:secure_url" content={ogImage} />
+    <meta property="og:image:type" content="image/png" />
     <meta property="og:image:width" content="1200" />
     <meta property="og:image:height" content="630" />
-    <meta property="og:image:alt" content={`${site.name}, ${site.role}`} />
+    <meta property="og:image:alt" content="Tushar Moraye — Senior AI Product Engineer Portfolio Preview" />
     <meta property="og:locale" content="en_US" />
 
     <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:site" content="@tusharmoraye" />
+    <meta name="twitter:creator" content="@tusharmoraye" />
     <meta name="twitter:title" content={title} />
     <meta name="twitter:description" content={description} />
     <meta name="twitter:image" content={ogImage} />
+    <meta name="twitter:image:alt" content="Tushar Moraye — Senior AI Product Engineer Portfolio Preview" />
 
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
 
