@@ -68,7 +68,7 @@ export const work = [
   },
   {
     key: "tira",
-    link: "https://www.tirabeauty.com",
+    link: "https://www.tirabeauty.com/",
     linkLabel: "tirabeauty.com",
     company: "Reliance Retail",
     title: "Tira, a beauty commerce platform launch",
