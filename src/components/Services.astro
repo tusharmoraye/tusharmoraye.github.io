@@ -17,19 +17,17 @@ import { services } from "../data/site";
 
 <section
   id="services-pan"
-  class="relative overflow-hidden border-y border-line bg-surface/40"
+  class="relative overflow-hidden border-y border-line bg-surface/40 md:flex md:min-h-[100dvh] md:items-center"
   aria-label="Capabilities"
 >
   <div
     id="services-track"
-    class="flex gap-6 overflow-x-auto px-5 py-16 md:px-10 xl:px-16 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
-    style="scroll-snap-type: x mandatory;"
+    class="flex w-full snap-x snap-mandatory gap-6 overflow-x-auto px-5 py-16 md:px-10 xl:px-16 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
   >
     {
       services.map((s) => (
         <article
-          class="service-panel flex w-[82vw] shrink-0 flex-col justify-between rounded-[4px] border border-line bg-bg p-7 sm:w-[440px] md:p-9 lg:w-[520px]"
-          style="scroll-snap-align: center;"
+          class="service-panel flex w-[82vw] shrink-0 snap-center flex-col justify-between rounded-[4px] border border-line bg-bg p-7 sm:w-[440px] md:p-9 lg:w-[520px]"
         >
           <div>
             <Icon name={s.icon} class="size-6 text-accent" />
@@ -46,6 +44,9 @@ import { services } from "../data/site";
         </article>
       ))
     }
+    <!-- Trailing spacer: flex rows drop end padding from scrollWidth, so the
+         last panel would otherwise finish flush against the viewport edge. -->
+    <div class="w-0 shrink-0 md:w-10 xl:w-16" aria-hidden="true"></div>
   </div>
 </section>
 
@@ -66,10 +67,15 @@ import { services } from "../data/site";
   const build = () => {
     ctx?.revert();
     ctx = null;
+    if (track) {
+      track.style.overflowX = "";
+      track.style.scrollSnapType = "";
+    }
     if (reduce.matches || !wrap || !track || window.innerWidth < 768) return;
 
     ctx = gsap.context(() => {
-      track.style.overflowX = "hidden";
+      track.style.overflowX = "visible";
+      track.style.scrollSnapType = "none";
       const distance = () => track.scrollWidth - window.innerWidth;
       gsap.to(track, {
         x: () => -distance(),
@@ -98,7 +104,6 @@ import { services } from "../data/site";
     lastWidth = window.innerWidth;
     window.clearTimeout(resizeTimer);
     resizeTimer = window.setTimeout(() => {
-      if (track) track.style.overflowX = "";
       build();
       ScrollTrigger.refresh();
     }, 180);
