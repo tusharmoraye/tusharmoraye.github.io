@@ -19,13 +19,17 @@ const marks = [
 ];
 ---
 
-<section aria-label="Technologies used in production" class="border-y border-line bg-surface/40">
+<section
+  aria-label="Technologies used in production"
+  data-stack-strip
+  class="border-y border-line bg-surface/40"
+>
   <div class="shell flex flex-col gap-8 py-10 lg:flex-row lg:items-center lg:gap-14 lg:py-8">
     <p class="label-mono shrink-0">Shipped with</p>
     <ul class="grid grid-cols-4 gap-x-6 gap-y-8 sm:grid-cols-6 lg:flex lg:flex-1 lg:justify-between lg:gap-8">
       {
-        marks.map((m, i) => (
-          <li class="reveal flex items-center justify-center" style={`--reveal-delay:${i * 45}ms`}>
+        marks.map((m) => (
+          <li class="stack-mark flex items-center justify-center">
             <svg
               role="img"
               aria-label={m.title}
@@ -40,3 +44,33 @@ const marks = [
     </ul>
   </div>
 </section>
+
+<script>
+  import { gsap } from "gsap";
+  import { ScrollTrigger } from "gsap/ScrollTrigger";
+
+  gsap.registerPlugin(ScrollTrigger);
+
+  const strip = document.querySelector<HTMLElement>("[data-stack-strip]");
+  const reduce = window.matchMedia("(prefers-reduced-motion: reduce)");
+
+  // Motion rationale: storytelling. The marks arrive scattered and settle into
+  // a single row, which is the point the strip is making about the stack.
+  if (strip && !reduce.matches) {
+    const marks = gsap.utils.toArray<HTMLElement>(".stack-mark");
+    // No gsap.set here: a .from() reads the current value as its end state, so
+    // pre-setting opacity to 0 would animate the marks from 0 to 0.
+    // immediateRender applies the start state before first paint on its own.
+    gsap.from(marks, {
+      opacity: 0,
+      x: () => gsap.utils.random(-70, 70),
+      y: () => gsap.utils.random(-40, 40),
+      rotate: () => gsap.utils.random(-35, 35),
+      scale: 0.7,
+      duration: 0.9,
+      ease: "power3.out",
+      stagger: { each: 0.035, from: "random" },
+      scrollTrigger: { trigger: strip, start: "top 88%", once: true },
+    });
+  }
+</script>

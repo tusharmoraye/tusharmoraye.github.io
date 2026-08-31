@@ -1,0 +1,292 @@
+---
+// Ambient pointer layer for the hero, rendered on the GPU.
+//
+// Technique (independently implemented): a chain of follower points trails the
+// pointer, each chasing the one ahead of it. A full screen quad evaluates the
+// combined field per dot cell in a fragment shader and thresholds it against a
+// recursive 8x8 ordered Bayer pattern, so the tail disintegrates dot by dot
+// instead of fading to transparent.
+//
+// three.js is imported lazily and only ever on a fine pointer with motion
+// allowed, so touch devices and reduced motion users never download it.
+---
+
+<canvas
+  id="dither-trail"
+  class="pointer-events-none absolute inset-0 z-[1] size-full opacity-0 transition-opacity duration-700"
+  aria-hidden="true"></canvas>
+
+<script>
+  const canvas = document.getElementById("dither-trail") as HTMLCanvasElement | null;
+  const host = canvas?.closest("section") as HTMLElement | null;
+
+  const fine = window.matchMedia("(hover: hover) and (pointer: fine)");
+  const reduce = window.matchMedia("(prefers-reduced-motion: reduce)");
+
+  const HEAD_EASE = 0.3;
+  const CHAIN_EASE = 0.36;
+
+  if (!canvas || !host || !fine.matches || reduce.matches) {
+    // Touch, coarse pointer, or motion turned off: no effect will ever run
+    // here, so the element does not need to stay in the document.
+    canvas?.remove();
+  } else {
+    // Must match NODES in the shader module.
+    const NODES = 24;
+    const nodes = Array.from({ length: NODES }, () => ({ x: -9999, y: -9999 }));
+    const pointer = { x: -9999, y: -9999 };
+    let seeded = false;
+    let energy = 0;
+    let targetEnergy = 0;
+    let lastX = -9999;
+    let lastY = -9999;
+    let visible = true;
+    let inside = false;
+    let raf = 0;
+    let ready = false;
+
+    // Buffered until three.js resolves, so the first flick of the pointer is
+    // not lost while the module downloads.
+    const onPointerMove = (e: PointerEvent) => {
+      if (e.pointerType !== "mouse") return;
+      const rect = host.getBoundingClientRect();
+      pointer.x = e.clientX - rect.left;
+      pointer.y = e.clientY - rect.top;
+      inside = true;
+
+      // Collapse the chain onto the first known pointer position, otherwise it
+      // lerps in from its off screen start and whips across the hero once.
+      if (!seeded) {
+        seeded = true;
+        for (const n of nodes) {
+          n.x = pointer.x;
+          n.y = pointer.y;
+        }
+      }
+      if (ready) wake();
+    };
+    let wake = () => {};
+
+    const onPointerLeave = () => {
+      inside = false;
+      targetEnergy = 0;
+    };
+
+    host.addEventListener("pointermove", onPointerMove, { passive: true });
+    host.addEventListener("pointerleave", onPointerLeave);
+
+    // Nothing here should outlive a hero that cannot render. onPointerMove
+    // reads layout on every mouse move, so leaving it attached would tax a
+    // machine that gets no effect out of it.
+    const teardown = () => {
+      host.removeEventListener("pointermove", onPointerMove);
+      host.removeEventListener("pointerleave", onPointerLeave);
+      canvas.remove();
+    };
+
+    const boot = async () => {
+      const [THREE, shaders] = await Promise.all([
+        import("three"),
+        import("../scripts/dither-shaders"),
+      ]);
+      const { NODES, vertexShader, fragmentShader } = shaders;
+
+      const renderer = new THREE.WebGLRenderer({
+        canvas,
+        alpha: true,
+        antialias: false,
+        powerPreference: "low-power",
+      });
+      renderer.setClearAlpha(0);
+
+      const scene = new THREE.Scene();
+      const camera = new THREE.Camera();
+
+      const uniforms = {
+        uPoints: { value: Array.from({ length: NODES }, () => new THREE.Vector2(-9999, -9999)) },
+        uAccent: { value: new THREE.Color(0x4fd3e8) },
+        uEnergy: { value: 0 },
+        uCell: { value: 7 },
+        uDot: { value: 2.8 },
+        uRadius: { value: 104 },
+        uTaper: { value: 0.78 },
+      };
+
+      const quad = new THREE.Mesh(
+        new THREE.PlaneGeometry(2, 2),
+        new THREE.ShaderMaterial({
+          vertexShader,
+          fragmentShader,
+          uniforms,
+          transparent: true,
+          depthTest: false,
+          depthWrite: false,
+        }),
+      );
+      scene.add(quad);
+
+      let dpr = 1;
+      let height = 0;
+
+      const resize = () => {
+        dpr = Math.min(window.devicePixelRatio || 1, 2);
+        const rect = host.getBoundingClientRect();
+        height = rect.height;
+        renderer.setPixelRatio(dpr);
+        renderer.setSize(rect.width, rect.height, false);
+        // Dot pitch and blob size are authored in css px, scaled to device px.
+        uniforms.uCell.value = 7 * dpr;
+        uniforms.uDot.value = 2.8 * dpr;
+        uniforms.uRadius.value = 104 * dpr;
+      };
+
+      const readAccent = () => {
+        const raw = getComputedStyle(document.documentElement)
+          .getPropertyValue("--c-accent")
+          .trim();
+        if (raw) uniforms.uAccent.value.set(raw);
+      };
+
+      const frame = () => {
+        // Energy tracks pointer speed rather than a moving/not-moving flag. A
+        // stationary chain collapses onto its head, and without this the
+        // collapsed blob would sit on screen as a solid disc of dots.
+        const dx = pointer.x - lastX;
+        const dy = pointer.y - lastY;
+        const speed = Math.sqrt(dx * dx + dy * dy);
+        lastX = pointer.x;
+        lastY = pointer.y;
+        if (inside) targetEnergy = Math.min(1, speed / 7);
+
+        energy += (targetEnergy - energy) * (targetEnergy > energy ? 0.3 : 0.09);
+
+        nodes[0].x += (pointer.x - nodes[0].x) * HEAD_EASE;
+        nodes[0].y += (pointer.y - nodes[0].y) * HEAD_EASE;
+        for (let i = 1; i < NODES; i++) {
+          nodes[i].x += (nodes[i - 1].x - nodes[i].x) * CHAIN_EASE;
+          nodes[i].y += (nodes[i - 1].y - nodes[i].y) * CHAIN_EASE;
+        }
+
+        // gl_FragCoord counts from the bottom left, pointer coords from the top.
+        for (let i = 0; i < NODES; i++) {
+          uniforms.uPoints.value[i].set(nodes[i].x * dpr, (height - nodes[i].y) * dpr);
+        }
+        uniforms.uEnergy.value = energy;
+
+        renderer.render(scene, camera);
+
+        if (energy > 0.01 && visible) {
+          raf = requestAnimationFrame(frame);
+        } else {
+          raf = 0;
+          renderer.clear();
+        }
+      };
+
+      wake = () => {
+        if (!raf && visible && ready) raf = requestAnimationFrame(frame);
+      };
+
+      const ro = new ResizeObserver(resize);
+      ro.observe(host);
+
+      // Nothing renders while the hero is off screen.
+      new IntersectionObserver(
+        ([entry]) => {
+          visible = entry.isIntersecting;
+          if (visible) wake();
+        },
+        { threshold: 0 },
+      ).observe(host);
+
+      // Dot colour follows the theme toggle.
+      new MutationObserver(readAccent).observe(document.documentElement, {
+        attributes: true,
+        attributeFilter: ["data-theme"],
+      });
+
+      readAccent();
+      resize();
+
+      if (!seeded && pointer.x > -9000) {
+        seeded = true;
+        for (const n of nodes) {
+          n.x = pointer.x;
+          n.y = pointer.y;
+        }
+      }
+
+      ready = true;
+      canvas.classList.remove("opacity-0");
+      wake();
+    };
+
+    // Ask the cheap question before paying 182KB for the answer: probing a
+    // throwaway canvas costs nothing, while letting three.js discover a missing
+    // context downloads the whole library and logs errors to find out.
+    const supportsWebGL = () => {
+      try {
+        const probe = document.createElement("canvas");
+        const gl = (probe.getContext("webgl2") ??
+          probe.getContext("webgl")) as WebGLRenderingContext | null;
+        if (!gl) return false;
+        gl.getExtension("WEBGL_lose_context")?.loseContext();
+        return true;
+      } catch {
+        return false;
+      }
+    };
+
+    // A context can also die after a good start: GPU reset, driver crash, or
+    // the browser reclaiming contexts from a backgrounded tab.
+    canvas.addEventListener("webglcontextlost", (e) => {
+      e.preventDefault();
+      ready = false;
+      if (raf) cancelAnimationFrame(raf);
+      raf = 0;
+      canvas.classList.add("opacity-0");
+    });
+
+    // A decorative layer must never compete with the page itself for
+    // bandwidth. On a metered or slow connection it is not worth 182KB, so it
+    // is skipped outright rather than queued behind the content.
+    const conn = (navigator as any).connection;
+    if (conn?.saveData === true || /(^|-)2g$/.test(conn?.effectiveType ?? "")) {
+      teardown();
+    } else {
+      let started = false;
+
+      const start = () => {
+        if (started) return;
+        started = true;
+        if (!supportsWebGL()) {
+          teardown();
+          return;
+        }
+        boot().catch(teardown);
+      };
+
+      // requestIdleCallback alone is not enough. The main thread sits idle
+      // while images and fonts are still in flight, so an idle callback can
+      // fire mid load and steal bandwidth from the hero image. Waiting for the
+      // load event puts three.js strictly behind everything the page needs.
+      const afterLoad = (cb: () => void) => {
+        if (document.readyState === "complete") cb();
+        else window.addEventListener("load", cb, { once: true });
+      };
+
+      afterLoad(() => {
+        const idle =
+          window.requestIdleCallback ?? ((cb: () => void) => window.setTimeout(cb, 600));
+        idle(start, { timeout: 2500 });
+      });
+
+      // Intent beats the timer: someone who is already moving the pointer
+      // across the hero gets the download started now.
+      host.addEventListener("pointermove", () => afterLoad(start), {
+        passive: true,
+        once: true,
+      });
+    }
+  }
+</script>

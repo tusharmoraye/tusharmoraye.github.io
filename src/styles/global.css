@@ -204,4 +204,31 @@ html.motion-on .hero-ready .line-mask > span { transform: translate3d(0, 0, 0); 
   transition: filter 0.6s ease, transform 0.9s var(--ease-out-expo);
 }
 :root[data-theme="dark"] .plate { filter: grayscale(1) contrast(1.06) brightness(0.66); }
+
+/* Hover treatment for the case study plates. Reuses the hero's dither idea as
+   a halftone grid so the page carries one visual language, not two. */
+.plate-frame::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background-image: radial-gradient(circle at center, var(--c-accent) 0 1px, transparent 1.3px);
+  background-size: 5px 5px;
+  opacity: 0;
+  transition: opacity 0.5s var(--ease-out-expo);
+  mix-blend-mode: screen;
+  /* Masked so the dither dissolves the lower edge of the plate instead of
+     laying a screen door over the whole photograph. */
+  -webkit-mask-image: linear-gradient(to top, #000 0%, transparent 62%);
+  mask-image: linear-gradient(to top, #000 0%, transparent 62%);
+}
+:root[data-theme="light"] .plate-frame::after { mix-blend-mode: multiply; }
+.plate-frame:hover::after { opacity: 0.55; }
+.plate-frame:hover .plate { transform: scale(1.03); }
+
+@media (prefers-reduced-motion: reduce) {
+  .plate-frame::after,
+  .plate-frame:hover::after { transition: none; }
+  .plate-frame:hover .plate { transform: none; }
+}
 }

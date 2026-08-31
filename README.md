@@ -7,6 +7,8 @@ Single page portfolio for Tushar Moraye, AI Product Engineer.
 - Astro 7 (static output, zero framework runtime)
 - Tailwind CSS v4 via `@tailwindcss/vite`
 - GSAP ScrollTrigger for the pinned sections, plain IntersectionObserver for everything else
+- three.js for the hero pointer trail, lazily imported after idle and only on a
+  fine pointer with motion allowed, so touch and reduced motion users never fetch it
 - `astro-icon` with Phosphor icons, `simple-icons` for brand marks
 - `@astrojs/sitemap`, JSON-LD Person and ProfessionalService schema, Open Graph card at `public/og.png`
 
