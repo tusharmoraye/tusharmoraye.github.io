@@ -1,6 +1,114 @@
 ---
 import { Icon } from "astro-icon/components";
+import { Image } from "astro:assets";
 import { work } from "../data/site";
+
+import copilotSite from "../assets/work/copilot-site.png";
+import copilotUi from "../assets/work/copilot-ui.jpg";
+import copilotEval from "../assets/work/copilot-eval.jpg";
+
+import tiraSite from "../assets/work/tira-site.png";
+import tiraStorefront from "../assets/work/tira-storefront.jpg";
+import tiraInfra from "../assets/work/tira-infra.jpg";
+
+import erasebgSite from "../assets/work/erasebg-site.png";
+import erasebgSplit from "../assets/work/erasebg-split.jpg";
+import erasebgPipeline from "../assets/work/erasebg-pipeline.jpg";
+
+import glamarSite from "../assets/work/glamar-site.png";
+import glamarTryon from "../assets/work/glamar-tryon.jpg";
+import glamarShopify from "../assets/work/glamar-shopify.jpg";
+
+const workVisuals: Record<
+  string,
+  Array<{
+    src: ImageMetadata;
+    alt: string;
+    label: string;
+    caption: string;
+  }>
+> = {
+  copilot: [
+    {
+      src: copilotUi,
+      alt: "Atlan Copilot conversational interface with MCP tool calls and data lineage",
+      label: "Conversational UI",
+      caption: "Conversational UI on Vercel ai-sdk with human-in-the-loop MCP tools",
+    },
+    {
+      src: copilotEval,
+      alt: "LLM Evaluation and Reliability Dashboard with 80+ E2E tests and CI gating",
+      label: "Eval & CI Gate",
+      caption: "80+ LLM evaluation test suite & regression gating CI",
+    },
+    {
+      src: copilotSite,
+      alt: "Atlan AI - The first copilot for data teams live product landing page",
+      label: "Live Site",
+      caption: "Atlan AI: The first copilot for modern data teams",
+    },
+  ],
+  tira: [
+    {
+      src: tiraStorefront,
+      alt: "Tira Beauty product catalog and luxury cosmetics checkout UI",
+      label: "Catalog & PDP",
+      caption: "Sub-second LCP catalog architecture & fast commerce checkout",
+    },
+    {
+      src: tiraInfra,
+      alt: "Kubernetes, Kafka event streams, and Redis cache observability dashboard",
+      label: "Platform & Infra",
+      caption: "Kubernetes, Kafka & Redis stack serving 20M+ visits",
+    },
+    {
+      src: tiraSite,
+      alt: "Tira Beauty live e-commerce platform storefront",
+      label: "Storefront",
+      caption: "Tira Beauty: Omnichannel luxury beauty commerce platform",
+    },
+  ],
+  erasebg: [
+    {
+      src: erasebgSplit,
+      alt: "Precision ML background removal comparison with transparent cutout mask",
+      label: "ML Cutout",
+      caption: "High-precision computer vision segmentation & transparent mask",
+    },
+    {
+      src: erasebgPipeline,
+      alt: "EraseBG high throughput ML inference pipeline and GPU queue dashboard",
+      label: "Inference Stack",
+      caption: "45ms P95 latency pipeline & Redis queuing serving 100K DAU",
+    },
+    {
+      src: erasebgSite,
+      alt: "Erase.bg AI background removal web application",
+      label: "Web App",
+      caption: "Erase.bg: Consumer-scale ML background removal",
+    },
+  ],
+  glamar: [
+    {
+      src: glamarTryon,
+      alt: "Real-time WebAssembly 60 FPS virtual makeup try-on mirror interface",
+      label: "Wasm Try-On",
+      caption: "Real-time 60 FPS WebAssembly facial tracking & AR try-on",
+    },
+    {
+      src: glamarShopify,
+      alt: "GlamAR embeddable JavaScript SDK and Shopify 3D spatial viewer",
+      label: "Shopify & SDK",
+      caption: "Embeddable JS SDK & Shopify 3D spatial viewer runtime",
+    },
+    {
+      src: glamarSite,
+      alt: "GlamAR virtual try-on platform homepage",
+      label: "Platform",
+      caption: "GlamAR: Immersive 3D & AR shopping in the browser",
+    },
+  ],
+};
 ---
 
 <section id="work" class="relative py-24 md:py-28">
@@ -12,70 +120,144 @@ import { work } from "../data/site";
 
   <div id="work-stack" class="relative mt-14">
     {
-      work.map((w) => (
-        <article
-          class="stack-card sticky top-0 flex min-h-[100dvh] items-center bg-bg py-16"
-          data-key={w.key}
-        >
-          <div class="shell grid w-full items-center gap-10 border-t border-line pt-10 lg:grid-cols-12 lg:gap-14">
-            <div class="lg:col-span-5">
-              <p class="font-mono text-[13px] font-medium text-accent">{w.company}</p>
-              <h3 class="mt-5 text-[clamp(1.6rem,3vw,2.6rem)] font-semibold leading-[1.1] tracking-[-0.025em]">
-                {w.title}
-              </h3>
-              <p class="mt-5 max-w-[52ch] text-[15px] leading-relaxed text-muted">{w.body}</p>
+      work.map((w) => {
+        const slides = workVisuals[w.key] ?? [];
+        return (
+          <article
+            class="stack-card sticky top-0 flex min-h-[100dvh] items-center bg-bg py-16"
+            data-key={w.key}
+          >
+            <div class="shell grid w-full items-center gap-10 border-t border-line pt-10 lg:grid-cols-12 lg:gap-14">
+              <div class="lg:col-span-5">
+                <p class="font-mono text-[13px] font-medium text-accent">{w.company}</p>
+                <h3 class="mt-5 text-[clamp(1.6rem,3vw,2.6rem)] font-semibold leading-[1.1] tracking-[-0.025em]">
+                  {w.title}
+                </h3>
+                <p class="mt-5 max-w-[52ch] text-[15px] leading-relaxed text-muted">{w.body}</p>
 
-              <div class="mt-8 flex items-baseline gap-4">
-                <span class="font-mono text-4xl font-bold tracking-tight text-accent md:text-5xl">
-                  {w.stat}
-                </span>
-                <span class="max-w-[22ch] text-[13px] leading-snug text-muted">{w.statLabel}</span>
+                <div class="mt-8 flex items-baseline gap-4">
+                  <span class="font-mono text-4xl font-bold tracking-tight text-accent md:text-5xl">
+                    {w.stat}
+                  </span>
+                  <span class="max-w-[22ch] text-[13px] leading-snug text-muted">{w.statLabel}</span>
+                </div>
+
+                <ul class="mt-8 flex flex-wrap gap-2">
+                  {w.tags.map((t) => (
+                    <li class="rounded-[4px] border border-line px-2.5 py-1 font-mono text-[11px] text-muted">
+                      {t}
+                    </li>
+                  ))}
+                </ul>
+                <div class="mt-6 flex flex-wrap items-center gap-x-5 gap-y-2">
+                  <p class="font-mono text-[11px] text-muted">{w.year}</p>
+                  <a
+                    href={w.link}
+                    target="_blank"
+                    rel="noopener"
+                    class="group inline-flex items-center gap-1.5 font-mono text-[11px] text-muted underline-offset-4 transition-colors hover:text-accent hover:underline"
+                  >
+                    {w.linkLabel}
+                    <Icon
+                      name="ph:arrow-up-right-bold"
+                      class="size-3 transition-transform group-hover:-translate-y-px group-hover:translate-x-px"
+                    />
+                    <span class="sr-only">, opens in a new tab</span>
+                  </a>
+                </div>
               </div>
 
-              <ul class="mt-8 flex flex-wrap gap-2">
-                {w.tags.map((t) => (
-                  <li class="rounded-[4px] border border-line px-2.5 py-1 font-mono text-[11px] text-muted">
-                    {t}
-                  </li>
-                ))}
-              </ul>
-              <div class="mt-6 flex flex-wrap items-center gap-x-5 gap-y-2">
-                <p class="font-mono text-[11px] text-muted">{w.year}</p>
-                <a
-                  href={w.link}
-                  target="_blank"
-                  rel="noopener"
-                  class="group inline-flex items-center gap-1.5 font-mono text-[11px] text-muted underline-offset-4 transition-colors hover:text-accent hover:underline"
+              <figure class="lg:col-span-7">
+                <div
+                  class="project-carousel relative aspect-[4/3] w-full overflow-hidden rounded-[4px] border border-line bg-surface-2 shadow-2xl"
+                  data-project={w.key}
                 >
-                  {w.linkLabel}
-                  <Icon
-                    name="ph:arrow-up-right-bold"
-                    class="size-3 transition-transform group-hover:-translate-y-px group-hover:translate-x-px"
-                  />
-                  <span class="sr-only">, opens in a new tab</span>
-                </a>
-              </div>
-            </div>
+                  {/* Slides */}
+                  <div class="slides-wrapper absolute inset-0 size-full">
+                    {slides.map((slide, idx) => (
+                      <div
+                        class="carousel-slide absolute inset-0 size-full"
+                        data-slide-index={idx}
+                        data-caption={slide.caption}
+                        style={
+                          idx === 0
+                            ? "opacity: 1; z-index: 2;"
+                            : "opacity: 0; z-index: 1; pointer-events: none;"
+                        }
+                      >
+                        <Image
+                          src={slide.src}
+                          alt={slide.alt}
+                          width={1200}
+                          height={900}
+                          loading="lazy"
+                          decoding="async"
+                          class="plate size-full object-cover"
+                        />
+                        <div
+                          class="pointer-events-none absolute inset-x-0 bottom-0 h-28 bg-gradient-to-t from-bg/95 via-bg/35 to-transparent"
+                          aria-hidden="true"
+                        />
+                      </div>
+                    ))}
+                  </div>
 
-            <figure class="lg:col-span-7">
-              <div class="plate-frame overflow-hidden rounded-[4px] border border-line bg-surface-2">
-                <picture>
-                  <source srcset={`${w.img}.webp`} type="image/webp" />
-                  <img
-                    src={`${w.img}.jpg`}
-                    alt={w.alt}
-                    width="1200"
-                    height="900"
-                    loading="lazy"
-                    decoding="async"
-                    class="plate aspect-[4/3] w-full object-cover"
-                  />
-                </picture>
-              </div>
-            </figure>
-          </div>
-        </article>
-      ))
+                  {/* Header Navigation: Tabs and Progress Pill */}
+                  <div class="pointer-events-auto absolute inset-x-3 top-3 z-[10] flex items-center justify-between gap-2">
+                    <div class="flex items-center gap-1 rounded-full border border-line/90 bg-bg/85 p-1 shadow-lg backdrop-blur-md">
+                      {slides.map((slide, idx) => (
+                        <button
+                          type="button"
+                          class={`carousel-tab flex cursor-pointer items-center gap-1.5 rounded-full px-2.5 py-1 font-mono text-[10px] transition-all ${
+                            idx === 0
+                              ? "is-active bg-accent font-semibold text-accent-ink shadow-xs"
+                              : "text-muted hover:bg-surface hover:text-ink"
+                          }`}
+                          data-target={idx}
+                          aria-label={`View ${slide.label}`}
+                        >
+                          <span class="opacity-70">{String(idx + 1).padStart(2, "0")}</span>
+                          <span class="hidden sm:inline">{slide.label}</span>
+                        </button>
+                      ))}
+                    </div>
+
+                    <div class="flex items-center gap-1.5 rounded-full border border-line/90 bg-bg/85 px-2.5 py-1 shadow-lg backdrop-blur-md">
+                      <button
+                        type="button"
+                        class="carousel-prev flex size-5 cursor-pointer items-center justify-center rounded-full text-muted transition-colors hover:bg-surface hover:text-accent"
+                        aria-label="Previous view"
+                      >
+                        <Icon name="ph:caret-left-bold" class="size-3" />
+                      </button>
+                      <div class="h-1 w-6 overflow-hidden rounded-full bg-line sm:w-8">
+                        <div class="carousel-progress h-full w-0 rounded-full bg-accent"></div>
+                      </div>
+                      <button
+                        type="button"
+                        class="carousel-next flex size-5 cursor-pointer items-center justify-center rounded-full text-muted transition-colors hover:bg-surface hover:text-accent"
+                        aria-label="Next view"
+                      >
+                        <Icon name="ph:caret-right-bold" class="size-3" />
+                      </button>
+                    </div>
+                  </div>
+
+                  {/* Footer: Dynamic Caption & Counter */}
+                  <div class="pointer-events-none absolute inset-x-3 bottom-3 z-[10] flex items-center justify-between gap-2">
+                    <p class="carousel-caption line-clamp-1 max-w-[85%] rounded-[4px] border border-line/70 bg-bg/90 px-3 py-1 font-mono text-[11px] text-ink backdrop-blur-md">
+                      {slides[0]?.caption}
+                    </p>
+                    <span class="carousel-counter rounded-[4px] border border-line/70 bg-bg/90 px-2 py-1 font-mono text-[10px] text-muted backdrop-blur-md">
+                      1 / {slides.length}
+                    </span>
+                  </div>
+                </div>
+              </figure>
+            </div>
+          </article>
+        );
+      })
     }
   </div>
 </section>
@@ -90,8 +272,7 @@ import { work } from "../data/site";
   const reduce = window.matchMedia("(prefers-reduced-motion: reduce)");
   let ctx: gsap.Context | null = null;
 
-  // Motion rationale: the four case studies physically stack, so the reader always
-  // sees the previous project recede rather than scroll away and disappear.
+  // Stacking ScrollTrigger Context
   const build = () => {
     ctx?.revert();
     ctx = null;
@@ -126,4 +307,162 @@ import { work } from "../data/site";
 
   build();
   reduce.addEventListener("change", build);
+
+  // GSAP Multi-Image Showcase Controller for each project
+  const carousels = document.querySelectorAll<HTMLElement>(".project-carousel");
+
+  carousels.forEach((carousel) => {
+    const slides = carousel.querySelectorAll<HTMLElement>(".carousel-slide");
+    const tabs = carousel.querySelectorAll<HTMLButtonElement>(".carousel-tab");
+    const prevBtn = carousel.querySelector<HTMLButtonElement>(".carousel-prev");
+    const nextBtn = carousel.querySelector<HTMLButtonElement>(".carousel-next");
+    const progressBar = carousel.querySelector<HTMLElement>(".carousel-progress");
+    const captionEl = carousel.querySelector<HTMLElement>(".carousel-caption");
+    const counterEl = carousel.querySelector<HTMLElement>(".carousel-counter");
+
+    if (slides.length <= 1) return;
+
+    let currentIndex = 0;
+    let isHovered = false;
+    let isInView = false;
+    let progressTween: gsap.core.Tween | null = null;
+
+    const startProgress = () => {
+      if (progressTween) progressTween.kill();
+      if (reduce.matches || !progressBar) return;
+
+      gsap.set(progressBar, { width: "0%" });
+      progressTween = gsap.to(progressBar, {
+        width: "100%",
+        duration: 4.5,
+        ease: "none",
+        onComplete: () => {
+          goToSlide((currentIndex + 1) % slides.length);
+        },
+      });
+
+      if (isHovered || !isInView) {
+        progressTween.pause();
+      }
+    };
+
+    const goToSlide = (targetIndex: number) => {
+      if (targetIndex === currentIndex) return;
+
+      const currentSlide = slides[currentIndex];
+      const targetSlide = slides[targetIndex];
+      const newCaption = targetSlide.dataset.caption ?? "";
+
+      // GSAP smooth crossfade + subtle depth scale
+      if (reduce.matches) {
+        gsap.set(currentSlide, { opacity: 0, zIndex: 1, pointerEvents: "none" });
+        gsap.set(targetSlide, { opacity: 1, zIndex: 2, pointerEvents: "auto" });
+      } else {
+        gsap.to(currentSlide, {
+          opacity: 0,
+          scale: 0.98,
+          duration: 0.45,
+          ease: "power2.inOut",
+          onComplete: () => {
+            gsap.set(currentSlide, { zIndex: 1, pointerEvents: "none" });
+          },
+        });
+
+        gsap.fromTo(
+          targetSlide,
+          { opacity: 0, scale: 1.04, zIndex: 2 },
+          {
+            opacity: 1,
+            scale: 1.0,
+            duration: 0.55,
+            ease: "power2.out",
+            pointerEvents: "auto",
+          },
+        );
+      }
+
+      // Update tabs
+      tabs.forEach((tab, idx) => {
+        if (idx === targetIndex) {
+          tab.classList.add("is-active", "bg-accent", "font-semibold", "text-accent-ink", "shadow-xs");
+          tab.classList.remove("text-muted", "hover:bg-surface", "hover:text-ink");
+        } else {
+          tab.classList.remove("is-active", "bg-accent", "font-semibold", "text-accent-ink", "shadow-xs");
+          tab.classList.add("text-muted", "hover:bg-surface", "hover:text-ink");
+        }
+      });
+
+      // Update caption with quick fade
+      if (captionEl) {
+        if (reduce.matches) {
+          captionEl.textContent = newCaption;
+        } else {
+          gsap.to(captionEl, {
+            opacity: 0,
+            y: 4,
+            duration: 0.15,
+            onComplete: () => {
+              captionEl.textContent = newCaption;
+              gsap.to(captionEl, { opacity: 1, y: 0, duration: 0.25 });
+            },
+          });
+        }
+      }
+
+      // Update counter
+      if (counterEl) {
+        counterEl.textContent = `${targetIndex + 1} / ${slides.length}`;
+      }
+
+      currentIndex = targetIndex;
+      startProgress();
+    };
+
+    // User interactions
+    tabs.forEach((tab) => {
+      tab.addEventListener("click", () => {
+        const target = Number(tab.dataset.target ?? 0);
+        goToSlide(target);
+      });
+    });
+
+    prevBtn?.addEventListener("click", () => {
+      const prevIndex = (currentIndex - 1 + slides.length) % slides.length;
+      goToSlide(prevIndex);
+    });
+
+    nextBtn?.addEventListener("click", () => {
+      const nextIndex = (currentIndex + 1) % slides.length;
+      goToSlide(nextIndex);
+    });
+
+    // Pause on hover so the user can study the details
+    carousel.addEventListener("mouseenter", () => {
+      isHovered = true;
+      progressTween?.pause();
+    });
+
+    carousel.addEventListener("mouseleave", () => {
+      isHovered = false;
+      if (isInView) progressTween?.resume();
+    });
+
+    // Viewport intersection observer to run only when visible
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          isInView = entry.isIntersecting;
+          if (isInView) {
+            if (!progressTween) startProgress();
+            else if (!isHovered) progressTween.resume();
+          } else {
+            progressTween?.pause();
+          }
+        });
+      },
+      { threshold: 0.25 },
+    );
+
+    observer.observe(carousel);
+  });
 </script>

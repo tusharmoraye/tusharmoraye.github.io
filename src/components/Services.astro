@@ -1,113 +1,615 @@
 ---
 import { Icon } from "astro-icon/components";
-import { services } from "../data/site";
 ---
 
-<section id="capabilities" class="relative py-24 md:py-32">
-  <div class="shell">
-    <h2 class="max-w-[16ch] text-[clamp(2rem,4.4vw,3.6rem)] font-semibold leading-[1.05] tracking-[-0.03em]">
-      Four things teams keep hiring me for.
-    </h2>
-    <p class="mt-5 max-w-[62ch] text-base leading-relaxed text-muted">
-      The common thread is taking a model capability and turning it into something a customer can
-      rely on every day.
-    </p>
-  </div>
-</section>
+<section id="capabilities" class="relative overflow-hidden py-28 md:py-36">
+  <!-- Subtle background grid -->
+  <div class="rule-grid pointer-events-none absolute inset-0 opacity-40" aria-hidden="true"></div>
 
-<section
-  id="services-pan"
-  class="relative overflow-hidden border-y border-line bg-surface/40 md:flex md:min-h-[100dvh] md:items-center"
-  aria-label="Capabilities"
->
-  <div
-    id="services-track"
-    class="flex w-full snap-x snap-mandatory gap-6 overflow-x-auto px-5 py-16 md:px-10 xl:px-16 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
-  >
-    {
-      services.map((s) => (
-        <article
-          class="service-panel flex w-[82vw] shrink-0 snap-center flex-col justify-between rounded-[4px] border border-line bg-bg p-7 sm:w-[440px] md:p-9 lg:w-[520px]"
-        >
-          <div>
-            <Icon name={s.icon} class="size-6 text-accent" />
-            <h3 class="mt-6 text-2xl font-semibold tracking-tight md:text-3xl">{s.title}</h3>
-            <p class="mt-4 max-w-[46ch] text-[15px] leading-relaxed text-muted">{s.body}</p>
+  <div class="shell relative z-[2]">
+    <!-- Section Header -->
+    <div class="max-w-3xl">
+      <div class="reveal mb-5 inline-flex items-center gap-2 rounded-full border border-line bg-surface px-3.5 py-1 font-mono text-[11px] text-muted shadow-xs">
+        <span class="size-1.5 rounded-full bg-accent animate-pulse"></span>
+        <span>What I Do</span>
+      </div>
+
+      <h2 class="reveal font-display text-[clamp(2.2rem,4.4vw,3.6rem)] font-semibold leading-[1.05] tracking-[-0.03em]">
+        Three pillars of production engineering.
+      </h2>
+      
+      <p class="reveal mt-4 max-w-[58ch] text-base leading-relaxed text-muted md:text-lg" style="--reveal-delay:120ms">
+        End-to-end engineering from conversational intelligence to sub-second user surfaces and high-throughput distributed backends.
+      </p>
+    </div>
+
+    <!-- 3 Alternating Feature Rows with GSAP Animated System Timelines -->
+    <div class="mt-20 flex flex-col gap-24 md:gap-32">
+      
+      <!-- ===================================================================
+           ROW 1: AI & AGENTIC SYSTEMS (RAG & Agent Execution Timeline)
+           =================================================================== -->
+      <article class="pillar-row grid items-center gap-10 lg:grid-cols-12 lg:gap-14" data-pillar="ai">
+        <!-- Content Column (Concise & Scannable) -->
+        <div class="pillar-content lg:col-span-5">
+          <div class="inline-flex items-center gap-2 font-mono text-xs font-semibold tracking-wider text-accent uppercase">
+            <span>01 / Intelligence & Agents</span>
           </div>
-          <ul class="mt-10 flex flex-wrap gap-2">
-            {s.points.map((p) => (
-              <li class="rounded-[4px] border border-line bg-surface-2 px-3 py-1.5 font-mono text-[11px] tracking-wide text-muted">
-                {p}
-              </li>
-            ))}
+
+          <h3 class="mt-3 font-display text-[clamp(1.7rem,2.8vw,2.4rem)] font-semibold leading-[1.12] tracking-[-0.025em] text-ink">
+            Conversational copilots with tool orchestration.
+          </h3>
+
+          <p class="mt-4 text-base leading-relaxed text-muted">
+            Architecting production-grade agentic workflows with streaming state, Model Context Protocol (MCP) tool integration, human-in-the-loop approvals, and empirical eval assertions.
+          </p>
+
+          <ul class="mt-6 space-y-2.5 text-sm text-ink">
+            <li class="flex items-center gap-2.5">
+              <span class="flex size-5 shrink-0 items-center justify-center rounded-full bg-accent/15 text-accent">
+                <Icon name="ph:check-bold" class="size-3" />
+              </span>
+              <span>Sub-200ms TTFT streaming state on Vercel <code class="font-mono text-xs text-accent">ai-sdk</code></span>
+            </li>
+            <li class="flex items-center gap-2.5">
+              <span class="flex size-5 shrink-0 items-center justify-center rounded-full bg-accent/15 text-accent">
+                <Icon name="ph:check-bold" class="size-3" />
+              </span>
+              <span>Model Context Protocol (MCP) tool routing & safeguards</span>
+            </li>
+            <li class="flex items-center gap-2.5">
+              <span class="flex size-5 shrink-0 items-center justify-center rounded-full bg-accent/15 text-accent">
+                <Icon name="ph:check-bold" class="size-3" />
+              </span>
+              <span>84+ automated E2E assertion evaluation test suites</span>
+            </li>
           </ul>
-        </article>
-      ))
-    }
-    <!-- Trailing spacer: flex rows drop end padding from scrollWidth, so the
-         last panel would otherwise finish flush against the viewport edge. -->
-    <div class="w-0 shrink-0 md:w-10 xl:w-16" aria-hidden="true"></div>
+
+          <div class="mt-7 flex flex-wrap gap-1.5 pt-4 border-t border-line/60">
+            {["Vercel ai-sdk", "RAG & Vector Search", "MCP Protocol", "LLM Evals", "Wasm ML"].map((tag) => (
+              <span class="rounded-md border border-line bg-surface-2 px-2.5 py-1 font-mono text-[10px] text-muted">
+                {tag}
+              </span>
+            ))}
+          </div>
+        </div>
+
+        <!-- Visual Stage Column (Animated RAG & Agent Timeline) -->
+        <div class="pillar-stage-wrap lg:col-span-7">
+          <div class="interactive-stage relative w-full overflow-hidden rounded-2xl border border-line/90 bg-surface/90 p-5 shadow-2xl backdrop-blur-xl sm:p-7" id="rag-stage">
+            <!-- Ambient Radial Glow -->
+            <div class="pointer-events-none absolute -top-10 -right-10 size-80 rounded-full bg-accent/20 blur-3xl"></div>
+
+            <!-- Timeline Step Progress Header -->
+            <div class="mb-5 flex items-center justify-between border-b border-line/60 pb-3 font-mono text-[11px]">
+              <div class="flex items-center gap-1 sm:gap-2">
+                <span class="rag-step-pill rounded px-2 py-0.5 font-bold transition-all text-accent bg-accent/15" data-step="1">1. Query</span>
+                <span class="text-line-strong">&rarr;</span>
+                <span class="rag-step-pill rounded px-2 py-0.5 transition-all text-muted" data-step="2">2. Vector RAG</span>
+                <span class="text-line-strong">&rarr;</span>
+                <span class="rag-step-pill rounded px-2 py-0.5 transition-all text-muted" data-step="3">3. MCP Tool</span>
+                <span class="text-line-strong">&rarr;</span>
+                <span class="rag-step-pill rounded px-2 py-0.5 transition-all text-muted" data-step="4">4. Stream Output</span>
+              </div>
+              <span class="hidden sm:inline-flex items-center gap-1.5 rounded-full bg-surface px-2.5 py-0.5 text-[10px] text-muted border border-line">
+                <span class="size-1.5 rounded-full bg-ok animate-pulse"></span>
+                <span>Live RAG Loop</span>
+              </span>
+            </div>
+
+            <!-- RAG Visual Canvas Elements -->
+            <div class="space-y-3 font-mono text-xs">
+              
+              <!-- STEP 1: User Query Node -->
+              <div class="rag-node rag-query rounded-xl border border-line/80 bg-bg/95 p-3.5 shadow-md transition-all">
+                <div class="flex items-center justify-between text-[11px] text-muted">
+                  <span>&gt; Ingest Query</span>
+                  <span class="rounded bg-surface-2 px-1.5 py-0.5 text-[10px]">embedding-3-small</span>
+                </div>
+                <p class="mt-1.5 font-medium text-ink text-[12px] rag-query-text">
+                  "Find upstream lineage for revenue_q3 and recalculate schema metrics"
+                </p>
+              </div>
+
+              <!-- STEP 2: Vector Search & Chunk Retrieval Node -->
+              <div class="rag-node rag-retrieval rounded-xl border border-line/80 bg-bg/95 p-3.5 shadow-md transition-all">
+                <div class="flex items-center justify-between text-[11px]">
+                  <span class="font-semibold text-spark flex items-center gap-1.5">
+                    <Icon name="ph:database-bold" class="size-3.5" />
+                    <span>Vector DB Retrieval</span>
+                  </span>
+                  <span class="text-muted text-[10px]">Top-k: 2 cosine similarity</span>
+                </div>
+                <div class="mt-2.5 grid grid-cols-1 sm:grid-cols-2 gap-2 text-[10px]">
+                  <div class="rag-chunk rounded border border-spark/30 bg-spark/10 p-2 text-ink opacity-40">
+                    <p class="font-bold text-spark">Chunk #412 (0.96 match)</p>
+                    <p class="text-muted text-[9px] mt-0.5">schema_revenue_v2 (dbt model)</p>
+                  </div>
+                  <div class="rag-chunk rounded border border-spark/30 bg-spark/10 p-2 text-ink opacity-40">
+                    <p class="font-bold text-spark">Chunk #809 (0.91 match)</p>
+                    <p class="text-muted text-[9px] mt-0.5">upstream_payments_lineage</p>
+                  </div>
+                </div>
+              </div>
+
+              <!-- STEP 3: Model & MCP Tool Execution -->
+              <div class="rag-node rag-tool rounded-xl border border-line/80 bg-bg/95 p-3.5 shadow-md transition-all">
+                <div class="flex items-center justify-between text-[11px]">
+                  <span class="font-semibold text-accent flex items-center gap-1.5">
+                    <Icon name="ph:lightning-bold" class="size-3.5" />
+                    <span>MCP Tool Execution</span>
+                  </span>
+                  <span class="rag-approval-badge rounded bg-ok px-2 py-0.5 text-[9px] font-bold text-accent-ink opacity-0 transition-opacity">
+                    ✓ User Approved (12ms)
+                  </span>
+                </div>
+                <p class="mt-1.5 text-muted text-[11px] rag-tool-call">
+                  mcp.call("query_lineage_graph", &#123; target: "revenue_q3", depth: 2 &#125;)
+                </p>
+              </div>
+
+              <!-- STEP 4: Synthesized Streamed Response & Eval Gate -->
+              <div class="rag-node rag-stream rounded-xl border border-line/80 bg-bg/95 p-3.5 shadow-md transition-all">
+                <div class="flex items-center justify-between text-[11px]">
+                  <span class="font-semibold text-ok flex items-center gap-1.5">
+                    <Icon name="ph:check-circle-bold" class="size-3.5" />
+                    <span>Synthesized Streaming Output</span>
+                  </span>
+                  <span class="rag-eval-badge font-mono text-[10px] text-ok font-bold opacity-0 transition-opacity">
+                    84/84 Eval Passed (100%)
+                  </span>
+                </div>
+                <p class="mt-1.5 text-ink text-[11px] leading-relaxed rag-stream-text opacity-40">
+                  "Lineage resolved: Connected 3 upstream dbt transforms with zero schema drift. Verified by automated release eval suite."
+                </p>
+              </div>
+
+            </div>
+          </div>
+        </div>
+      </article>
+
+
+      <!-- ===================================================================
+           ROW 2: PRODUCT UI/UX & WEB PERFORMANCE (Performance Audit Timeline)
+           =================================================================== -->
+      <article class="pillar-row grid items-center gap-10 lg:grid-cols-12 lg:gap-14" data-pillar="web">
+        <!-- Visual Stage Column (Left) -->
+        <div class="pillar-stage-wrap order-2 lg:order-1 lg:col-span-7">
+          <div class="interactive-stage relative w-full overflow-hidden rounded-2xl border border-line/90 bg-surface/90 p-5 shadow-2xl backdrop-blur-xl sm:p-7" id="perf-stage">
+            <!-- Ambient Radial Glow -->
+            <div class="pointer-events-none absolute -bottom-10 -left-10 size-80 rounded-full bg-spark/20 blur-3xl"></div>
+
+            <!-- Timeline Step Progress Header -->
+            <div class="mb-5 flex items-center justify-between border-b border-line/60 pb-3 font-mono text-[11px]">
+              <div class="flex items-center gap-1 sm:gap-2">
+                <span class="perf-step-pill rounded px-2 py-0.5 font-bold transition-all text-spark bg-spark/15" data-step="1">1. TTFB Ingest</span>
+                <span class="text-line-strong">&rarr;</span>
+                <span class="perf-step-pill rounded px-2 py-0.5 transition-all text-muted" data-step="2">2. Zero CLS Render</span>
+                <span class="text-line-strong">&rarr;</span>
+                <span class="perf-step-pill rounded px-2 py-0.5 transition-all text-muted" data-step="3">3. Sub-50ms INP</span>
+                <span class="text-line-strong">&rarr;</span>
+                <span class="perf-step-pill rounded px-2 py-0.5 transition-all text-muted" data-step="4">4. 100/100 Audit</span>
+              </div>
+            </div>
+
+            <!-- Performance Visual Elements -->
+            <div class="space-y-3 font-mono text-xs">
+              <!-- Live Core Web Vitals Scoreboard -->
+              <div class="rounded-xl border border-line/80 bg-bg/95 p-4 shadow-md">
+                <div class="flex items-center justify-between border-b border-line/60 pb-2.5">
+                  <span class="font-semibold text-ink">Core Web Vitals Audit</span>
+                  <span class="perf-lighthouse-badge rounded bg-ok/15 px-2.5 py-0.5 text-[10px] font-bold text-ok flex items-center gap-1">
+                    <span>★</span>
+                    <span class="perf-score-num">100</span><span>/100 Lighthouse</span>
+                  </span>
+                </div>
+
+                <div class="mt-3.5 grid grid-cols-3 gap-2.5 text-center">
+                  <div class="perf-gauge rounded-lg border border-ok/30 bg-ok/10 p-2.5">
+                    <p class="font-mono text-lg font-bold text-ok perf-lcp-val">0.58s</p>
+                    <p class="font-mono text-[9px] text-muted">LCP (Fast)</p>
+                  </div>
+                  <div class="perf-gauge rounded-lg border border-ok/30 bg-ok/10 p-2.5">
+                    <p class="font-mono text-lg font-bold text-ok perf-inp-val">32ms</p>
+                    <p class="font-mono text-[9px] text-muted">INP (Instant)</p>
+                  </div>
+                  <div class="perf-gauge rounded-lg border border-ok/30 bg-ok/10 p-2.5">
+                    <p class="font-mono text-lg font-bold text-ok">0.00</p>
+                    <p class="font-mono text-[9px] text-muted">CLS (Rock Solid)</p>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Animated GSAP Spring Curve & Tokens -->
+              <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                <div class="rounded-xl border border-line/80 bg-bg/95 p-3 shadow-md">
+                  <div class="flex items-center justify-between text-[10px]">
+                    <span class="font-semibold text-ink">GSAP Physics Spring</span>
+                    <span class="text-accent font-bold">expo.out</span>
+                  </div>
+                  <div class="mt-2 h-10 w-full rounded border border-line/60 bg-surface-2/60 p-1 flex items-center justify-center overflow-hidden">
+                    <svg class="h-6 w-full text-accent perf-wave" viewBox="0 0 100 25" fill="none">
+                      <path d="M0 20 Q 25 0, 60 4 T 100 6" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/>
+                    </svg>
+                  </div>
+                </div>
+
+                <div class="rounded-xl border border-line/80 bg-bg/95 p-3 shadow-md">
+                  <div class="flex items-center justify-between text-[10px]">
+                    <span class="font-semibold text-ink">Design Tokens</span>
+                    <span class="text-ok font-bold">60 FPS Smooth</span>
+                  </div>
+                  <div class="mt-2.5 flex items-center gap-2">
+                    <span class="size-4 rounded-full bg-accent ring-2 ring-accent/30 animate-pulse"></span>
+                    <span class="size-4 rounded-full bg-spark ring-2 ring-spark/30 animate-pulse" style="animation-delay: 200ms"></span>
+                    <span class="size-4 rounded-full bg-ok ring-2 ring-ok/30 animate-pulse" style="animation-delay: 400ms"></span>
+                    <span class="ml-auto font-mono text-[9px] text-muted">Zero FOUC</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- Content Column (Concise & Scannable) -->
+        <div class="pillar-content order-1 lg:order-2 lg:col-span-5">
+          <div class="inline-flex items-center gap-2 font-mono text-xs font-semibold tracking-wider text-accent uppercase">
+            <span>02 / Experience & Craft</span>
+          </div>
+
+          <h3 class="mt-3 font-display text-[clamp(1.7rem,2.8vw,2.4rem)] font-semibold leading-[1.12] tracking-[-0.025em] text-ink">
+            Sub-second speed meets bespoke interface craft.
+          </h3>
+
+          <p class="mt-4 text-base leading-relaxed text-muted">
+            Crafting lightning-fast, accessible web surfaces with sub-second LCP and near-zero INP. Built with scalable design token systems, expressive GSAP physics, and zero layout shift.
+          </p>
+
+          <ul class="mt-6 space-y-2.5 text-sm text-ink">
+            <li class="flex items-center gap-2.5">
+              <span class="flex size-5 shrink-0 items-center justify-center rounded-full bg-accent/15 text-accent">
+                <Icon name="ph:check-bold" class="size-3" />
+              </span>
+              <span>0.58s LCP & 32ms INP across millions of user sessions</span>
+            </li>
+            <li class="flex items-center gap-2.5">
+              <span class="flex size-5 shrink-0 items-center justify-center rounded-full bg-accent/15 text-accent">
+                <Icon name="ph:check-bold" class="size-3" />
+              </span>
+              <span>Tokenized design systems with seamless dark/light modes</span>
+            </li>
+            <li class="flex items-center gap-2.5">
+              <span class="flex size-5 shrink-0 items-center justify-center rounded-full bg-accent/15 text-accent">
+                <Icon name="ph:check-bold" class="size-3" />
+              </span>
+              <span>Expressive GSAP physics & fluid micro-interactions</span>
+            </li>
+          </ul>
+
+          <div class="mt-7 flex flex-wrap gap-1.5 pt-4 border-t border-line/60">
+            {["Core Web Vitals", "GSAP Physics", "Design Tokens", "Astro & Next.js", "Lighthouse 100"].map((tag) => (
+              <span class="rounded-md border border-line bg-surface-2 px-2.5 py-1 font-mono text-[10px] text-muted">
+                {tag}
+              </span>
+            ))}
+          </div>
+        </div>
+      </article>
+
+
+      <!-- ===================================================================
+           ROW 3: SCALABLE FULL-STACK ARCHITECTURE (Distributed Stream Timeline)
+           =================================================================== -->
+      <article class="pillar-row grid items-center gap-10 lg:grid-cols-12 lg:gap-14" data-pillar="fullstack">
+        <!-- Content Column (Concise & Scannable) -->
+        <div class="pillar-content lg:col-span-5">
+          <div class="inline-flex items-center gap-2 font-mono text-xs font-semibold tracking-wider text-accent uppercase">
+            <span>03 / Platform & Infrastructure</span>
+          </div>
+
+          <h3 class="mt-3 font-display text-[clamp(1.7rem,2.8vw,2.4rem)] font-semibold leading-[1.12] tracking-[-0.025em] text-ink">
+            Event-driven backends engineered for scale.
+          </h3>
+
+          <p class="mt-4 text-base leading-relaxed text-muted">
+            Engineering high-throughput distributed backends and cloud infrastructure. Deep expertise in Apache Kafka event pipelines, Redis caching topologies, Kubernetes orchestration, and resilient APIs.
+          </p>
+
+          <ul class="mt-6 space-y-2.5 text-sm text-ink">
+            <li class="flex items-center gap-2.5">
+              <span class="flex size-5 shrink-0 items-center justify-center rounded-full bg-accent/15 text-accent">
+                <Icon name="ph:check-bold" class="size-3" />
+              </span>
+              <span>Kafka streaming processing 45,000+ events/second</span>
+            </li>
+            <li class="flex items-center gap-2.5">
+              <span class="flex size-5 shrink-0 items-center justify-center rounded-full bg-accent/15 text-accent">
+                <Icon name="ph:check-bold" class="size-3" />
+              </span>
+              <span>Redis distributed multi-tier cache with 99.8% hit rate</span>
+            </li>
+            <li class="flex items-center gap-2.5">
+              <span class="flex size-5 shrink-0 items-center justify-center rounded-full bg-accent/15 text-accent">
+                <Icon name="ph:check-bold" class="size-3" />
+              </span>
+              <span>Kubernetes auto-scaling clusters with 99.99% SLA</span>
+            </li>
+          </ul>
+
+          <div class="mt-7 flex flex-wrap gap-1.5 pt-4 border-t border-line/60">
+            {["Apache Kafka", "Redis Cache", "Kubernetes", "Node.js & Go", "Zero-Downtime CI/CD"].map((tag) => (
+              <span class="rounded-md border border-line bg-surface-2 px-2.5 py-1 font-mono text-[10px] text-muted">
+                {tag}
+              </span>
+            ))}
+          </div>
+        </div>
+
+        <!-- Visual Stage Column (Distributed Pipeline Animation) -->
+        <div class="pillar-stage-wrap lg:col-span-7">
+          <div class="interactive-stage relative w-full overflow-hidden rounded-2xl border border-line/90 bg-surface/90 p-5 shadow-2xl backdrop-blur-xl sm:p-7" id="stream-stage">
+            <!-- Ambient Radial Glow -->
+            <div class="pointer-events-none absolute -top-10 -left-10 size-80 rounded-full bg-ok/20 blur-3xl"></div>
+
+            <!-- Timeline Step Progress Header -->
+            <div class="mb-5 flex items-center justify-between border-b border-line/60 pb-3 font-mono text-[11px]">
+              <div class="flex items-center gap-1 sm:gap-2">
+                <span class="stream-step-pill rounded px-2 py-0.5 font-bold transition-all text-ok bg-ok/15" data-step="1">1. Ingress</span>
+                <span class="text-line-strong">&rarr;</span>
+                <span class="stream-step-pill rounded px-2 py-0.5 transition-all text-muted" data-step="2">2. Kafka Partition</span>
+                <span class="text-line-strong">&rarr;</span>
+                <span class="stream-step-pill rounded px-2 py-0.5 transition-all text-muted" data-step="3">3. Redis Cache</span>
+                <span class="text-line-strong">&rarr;</span>
+                <span class="stream-step-pill rounded px-2 py-0.5 transition-all text-muted" data-step="4">4. K8s Scale</span>
+              </div>
+            </div>
+
+            <!-- Distributed Topology Visual Nodes -->
+            <div class="space-y-3 font-mono text-xs">
+              <div class="rounded-xl border border-line/80 bg-bg/95 p-4 shadow-md">
+                <div class="flex items-center justify-between border-b border-line/60 pb-2.5 text-xs">
+                  <span class="font-semibold text-ink">Distributed Stream Architecture</span>
+                  <span class="text-ok font-semibold">● 99.99% SLA Uptime</span>
+                </div>
+                <div class="mt-3.5 grid grid-cols-4 gap-2 text-center font-mono text-[10px]">
+                  <div class="stream-node stream-ingress rounded-lg border border-line bg-surface-2 p-2 transition-all">
+                    <p class="font-bold text-ink stream-req-count">20M+</p>
+                    <p class="text-[8px] text-muted">Ingress</p>
+                  </div>
+                  <div class="stream-node stream-kafka rounded-lg border border-accent/40 bg-accent/10 p-2 text-accent transition-all">
+                    <p class="font-bold stream-msg-rate">45k/s</p>
+                    <p class="text-[8px]">Kafka</p>
+                  </div>
+                  <div class="stream-node stream-redis rounded-lg border border-spark/40 bg-spark/10 p-2 text-spark transition-all">
+                    <p class="font-bold">99.8%</p>
+                    <p class="text-[8px]">Redis Hit</p>
+                  </div>
+                  <div class="stream-node stream-k8s rounded-lg border border-ok/40 bg-ok/10 p-2 text-ok transition-all">
+                    <p class="font-bold">12 Pods</p>
+                    <p class="text-[8px]">K8s Auto</p>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Live Stream Event Ticker Feed -->
+              <div class="rounded-xl border border-line/80 bg-bg/95 p-3.5 shadow-md">
+                <div class="flex items-center justify-between text-[10px] border-b border-line/60 pb-1.5">
+                  <span class="font-semibold text-ink flex items-center gap-1.5">
+                    <span class="size-2 rounded-full bg-ok animate-ping"></span>
+                    <span>Live Kafka Event Ingestion</span>
+                  </span>
+                  <span class="text-muted">P95: 42ms</span>
+                </div>
+                <div class="mt-2 space-y-1.5 font-mono text-[10px]">
+                  <div class="stream-event-row flex items-center justify-between text-muted">
+                    <span class="text-ink">[200 OK] POST /api/v1/telemetry</span>
+                    <span class="text-ok">12ms • ack:1</span>
+                  </div>
+                  <div class="stream-event-row flex items-center justify-between text-muted">
+                    <span class="text-ink">[CACHE_HIT] Redis session_token_889</span>
+                    <span class="text-spark">0.6ms</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </article>
+
+    </div>
   </div>
 </section>
 
+<!-- GSAP Multi-Step System Timelines and 3D Interactive Parallax -->
 <script>
   import { gsap } from "gsap";
   import { ScrollTrigger } from "gsap/ScrollTrigger";
 
   gsap.registerPlugin(ScrollTrigger);
 
-  const wrap = document.getElementById("services-pan") as HTMLElement | null;
-  const track = document.getElementById("services-track") as HTMLElement | null;
   const reduce = window.matchMedia("(prefers-reduced-motion: reduce)");
 
-  let ctx: gsap.Context | null = null;
+  if (!reduce.matches) {
+    // 1. Entrance choreography for the 3 rows
+    const rows = gsap.utils.toArray<HTMLElement>(".pillar-row");
+    rows.forEach((row, i) => {
+      const content = row.querySelector(".pillar-content");
+      const stage = row.querySelector(".pillar-stage-wrap");
+      const isEven = i % 2 === 1;
 
-  // Motion rationale: the four capabilities read as one traverse rather than a
-  // stacked list, so vertical scroll drives a horizontal pan while the section is pinned.
-  const build = () => {
-    ctx?.revert();
-    ctx = null;
-    if (track) {
-      track.style.overflowX = "";
-      track.style.scrollSnapType = "";
-    }
-    if (reduce.matches || !wrap || !track || window.innerWidth < 768) return;
-
-    ctx = gsap.context(() => {
-      track.style.overflowX = "visible";
-      track.style.scrollSnapType = "none";
-      const distance = () => track.scrollWidth - window.innerWidth;
-      gsap.to(track, {
-        x: () => -distance(),
-        ease: "none",
+      const tl = gsap.timeline({
         scrollTrigger: {
-          trigger: wrap,
-          start: "top top",
-          end: () => `+=${distance()}`,
-          pin: true,
-          scrub: 1,
-          invalidateOnRefresh: true,
+          trigger: row,
+          start: "top 78%",
+          toggleActions: "play none none reverse",
         },
       });
-    }, wrap);
-  };
 
-  build();
-  reduce.addEventListener("change", build);
+      tl.from(content, {
+        x: isEven ? 45 : -45,
+        opacity: 0,
+        duration: 0.85,
+        ease: "power3.out",
+      }).from(
+        stage,
+        {
+          scale: 0.93,
+          y: 35,
+          opacity: 0,
+          duration: 0.9,
+          ease: "power3.out",
+        },
+        "-=0.6"
+      );
+    });
 
-  // Crossing the 768px boundary swaps between the pinned pan and native
-  // scroll snapping, so the section is rebuilt when the width actually changes.
-  let lastWidth = window.innerWidth;
-  let resizeTimer: number | undefined;
-  const onResize = () => {
-    if (window.innerWidth === lastWidth) return;
-    lastWidth = window.innerWidth;
-    window.clearTimeout(resizeTimer);
-    resizeTimer = window.setTimeout(() => {
-      build();
-      ScrollTrigger.refresh();
-    }, 180);
-  };
-  window.addEventListener("resize", onResize);
-  window.addEventListener("orientationchange", onResize);
+    // =========================================================================
+    // 2. STAGE 1: Looping RAG & Agent Execution Timeline
+    // =========================================================================
+    const ragStage = document.getElementById("rag-stage");
+    if (ragStage) {
+      const stepPills = ragStage.querySelectorAll<HTMLElement>(".rag-step-pill");
+      const queryNode = ragStage.querySelector<HTMLElement>(".rag-query");
+      const chunks = ragStage.querySelectorAll<HTMLElement>(".rag-chunk");
+      const toolNode = ragStage.querySelector<HTMLElement>(".rag-tool");
+      const approvalBadge = ragStage.querySelector<HTMLElement>(".rag-approval-badge");
+      const streamText = ragStage.querySelector<HTMLElement>(".rag-stream-text");
+      const evalBadge = ragStage.querySelector<HTMLElement>(".rag-eval-badge");
+
+      const activateStep = (stepNum: number) => {
+        stepPills.forEach((p, idx) => {
+          if (idx + 1 === stepNum) {
+            p.classList.add("text-accent", "bg-accent/15", "font-bold");
+            p.classList.remove("text-muted");
+          } else {
+            p.classList.remove("text-accent", "bg-accent/15", "font-bold");
+            p.classList.add("text-muted");
+          }
+        });
+      };
+
+      const ragTl = gsap.timeline({ repeat: -1, repeatDelay: 1.5 });
+
+      ragTl
+        // Step 1: Ingest Query
+        .call(() => activateStep(1))
+        .fromTo(queryNode, { borderColor: "rgba(255,255,255,0.1)" }, { borderColor: "var(--c-accent)", duration: 0.4 })
+        // Step 2: Vector Search & Chunk Retrieval
+        .call(() => activateStep(2), undefined, "+=0.8")
+        .to(chunks, { opacity: 1, y: 0, stagger: 0.2, duration: 0.5, ease: "power2.out" })
+        // Step 3: MCP Tool Call & User Approval
+        .call(() => activateStep(3), undefined, "+=0.8")
+        .fromTo(toolNode, { borderColor: "rgba(255,255,255,0.1)" }, { borderColor: "var(--c-accent)", duration: 0.3 })
+        .to(approvalBadge, { opacity: 1, scale: 1, duration: 0.4, ease: "back.out(1.7)" })
+        // Step 4: Stream Output & Eval Gate
+        .call(() => activateStep(4), undefined, "+=0.8")
+        .to(streamText, { opacity: 1, duration: 0.6 })
+        .to(evalBadge, { opacity: 1, scale: 1, duration: 0.4, ease: "back.out(1.7)" })
+        // Reset state for loop
+        .to({}, { duration: 2.0 })
+        .to([chunks, approvalBadge, evalBadge], { opacity: 0, duration: 0.4 })
+        .to(streamText, { opacity: 0.4, duration: 0.4 });
+    }
+
+    // =========================================================================
+    // 3. STAGE 2: Looping Web Performance Timeline
+    // =========================================================================
+    const perfStage = document.getElementById("perf-stage");
+    if (perfStage) {
+      const stepPills = perfStage.querySelectorAll<HTMLElement>(".perf-step-pill");
+      const lcpVal = perfStage.querySelector<HTMLElement>(".perf-lcp-val");
+      const inpVal = perfStage.querySelector<HTMLElement>(".perf-inp-val");
+      const wave = perfStage.querySelector<HTMLElement>(".perf-wave path");
+
+      const activateStep = (stepNum: number) => {
+        stepPills.forEach((p, idx) => {
+          if (idx + 1 === stepNum) {
+            p.classList.add("text-spark", "bg-spark/15", "font-bold");
+            p.classList.remove("text-muted");
+          } else {
+            p.classList.remove("text-spark", "bg-spark/15", "font-bold");
+            p.classList.add("text-muted");
+          }
+        });
+      };
+
+      const perfTl = gsap.timeline({ repeat: -1, repeatDelay: 1.5 });
+
+      perfTl
+        .call(() => activateStep(1))
+        .fromTo(lcpVal, { textContent: "1.42s" }, { textContent: "0.58s", duration: 0.8, ease: "power2.out" })
+        .call(() => activateStep(2), undefined, "+=0.6")
+        .call(() => activateStep(3), undefined, "+=0.6")
+        .fromTo(inpVal, { textContent: "98ms" }, { textContent: "32ms", duration: 0.6, ease: "power2.out" })
+        .call(() => activateStep(4), undefined, "+=0.6")
+        .to(wave, { attr: { d: "M0 15 Q 35 0, 70 6 T 100 8" }, duration: 0.8, yoyo: true, repeat: 3, ease: "sine.inOut" })
+        .to({}, { duration: 1.5 });
+    }
+
+    // =========================================================================
+    // 4. STAGE 3: Looping Distributed Stream Timeline
+    // =========================================================================
+    const streamStage = document.getElementById("stream-stage");
+    if (streamStage) {
+      const stepPills = streamStage.querySelectorAll<HTMLElement>(".stream-step-pill");
+      const nodes = streamStage.querySelectorAll<HTMLElement>(".stream-node");
+      const msgRate = streamStage.querySelector<HTMLElement>(".stream-msg-rate");
+
+      const activateStep = (stepNum: number) => {
+        stepPills.forEach((p, idx) => {
+          if (idx + 1 === stepNum) {
+            p.classList.add("text-ok", "bg-ok/15", "font-bold");
+            p.classList.remove("text-muted");
+          } else {
+            p.classList.remove("text-ok", "bg-ok/15", "font-bold");
+            p.classList.add("text-muted");
+          }
+        });
+      };
+
+      const streamTl = gsap.timeline({ repeat: -1, repeatDelay: 1.5 });
+
+      streamTl
+        .call(() => activateStep(1))
+        .to(nodes[0], { scale: 1.05, duration: 0.3, yoyo: true, repeat: 1 })
+        .call(() => activateStep(2), undefined, "+=0.6")
+        .to(nodes[1], { scale: 1.05, duration: 0.3, yoyo: true, repeat: 1 })
+        .fromTo(msgRate, { textContent: "38k/s" }, { textContent: "45k/s", duration: 0.4 })
+        .call(() => activateStep(3), undefined, "+=0.6")
+        .to(nodes[2], { scale: 1.05, duration: 0.3, yoyo: true, repeat: 1 })
+        .call(() => activateStep(4), undefined, "+=0.6")
+        .to(nodes[3], { scale: 1.05, duration: 0.3, yoyo: true, repeat: 1 })
+        .to({}, { duration: 2.0 });
+    }
+
+    // 5. Interactive 3D Perspective Tilt on Mouse Movement
+    const stages = gsap.utils.toArray<HTMLElement>(".interactive-stage");
+    stages.forEach((stage) => {
+      stage.addEventListener("mousemove", (e: MouseEvent) => {
+        const rect = stage.getBoundingClientRect();
+        const x = (e.clientX - rect.left) / rect.width - 0.5;
+        const y = (e.clientY - rect.top) / rect.height - 0.5;
+
+        gsap.to(stage, {
+          rotationY: x * 6,
+          rotationX: -y * 6,
+          transformPerspective: 1000,
+          duration: 0.4,
+          ease: "power1.out",
+        });
+      });
+
+      stage.addEventListener("mouseleave", () => {
+        gsap.to(stage, {
+          rotationY: 0,
+          rotationX: 0,
+          duration: 0.6,
+          ease: "power2.out",
+        });
+      });
+    });
+  }
 </script>

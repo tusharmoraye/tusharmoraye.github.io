@@ -203,12 +203,9 @@ html.motion-on .hero-ready .line-mask > span { transform: translate3d(0, 0, 0); 
 }
 
 @layer components {
-/* Photography is monochrome-locked so it cannot fight the palette. */
 .plate {
-  filter: grayscale(1) contrast(1.05);
-  transition: filter 0.6s ease, transform 0.9s var(--ease-out-expo);
+  transition: transform 0.9s var(--ease-out-expo);
 }
-:root[data-theme="dark"] .plate { filter: grayscale(1) contrast(1.06) brightness(0.66); }
 
 /* Hover treatment for the case study plates. Reuses the hero's dither idea as
    a halftone grid so the page carries one visual language, not two. */

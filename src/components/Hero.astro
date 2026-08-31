@@ -1,6 +1,8 @@
 ---
 import { Icon } from "astro-icon/components";
+import { Image } from "astro:assets";
 import DitherTrail from "./DitherTrail.astro";
+import portraitImg from "../assets/hero/tushar_portrait.png";
 ---
 
 <section id="top" class="relative min-h-[100dvh] overflow-hidden pt-24 pb-16">
@@ -43,30 +45,42 @@ import DitherTrail from "./DitherTrail.astro";
     </div>
 
     <div class="lg:col-span-5 lg:col-start-8 xl:col-start-9">
-      <figure
-        class="reveal relative aspect-[4/5] w-full overflow-hidden rounded-[4px] border border-line bg-surface-2"
-        style="--reveal-delay:360ms"
-      >
-        <picture>
-          <source srcset="/img/hero.webp" type="image/webp" />
-          <img
-            id="hero-plate"
-            src="/img/hero.jpg"
-            alt="The curve of the earth at night seen from orbit, city light scattered across the dark side"
-            width="1000"
-            height="1250"
-            fetchpriority="high"
-            decoding="async"
-            class="plate size-full scale-[1.08] object-cover"
-          />
-        </picture>
+      <div class="relative max-w-[440px] mx-auto lg:max-w-none">
+        <!-- Ambient radial glow behind portrait -->
         <div
-          class="pointer-events-none absolute inset-0"
-          style="background: linear-gradient(180deg, transparent 40%, var(--c-bg) 100%); opacity:.75;"
+          class="pointer-events-none absolute -inset-2 rounded-2xl bg-accent/15 blur-2xl [html[data-theme='light']_&]:bg-accent/10"
           aria-hidden="true"
+        ></div>
+
+        <figure
+          class="reveal relative aspect-[3/4] w-full overflow-hidden rounded-xl border border-line/90 bg-surface-2 shadow-2xl transition-transform duration-500 hover:scale-[1.01]"
+          style="--reveal-delay:360ms"
         >
-        </div>
-      </figure>
+          <Image
+            id="hero-plate"
+            src={portraitImg}
+            alt="Tushar Moraye - AI Product Engineer"
+            width={1086}
+            height={1448}
+            fetchpriority="high"
+            loading="eager"
+            decoding="async"
+            class="plate size-full object-cover"
+          />
+
+          <!-- Floating badge at bottom of portrait -->
+          <div class="pointer-events-none absolute inset-x-3 bottom-3 z-10 flex items-center justify-between rounded-lg border border-line/80 bg-bg/85 px-3 py-2 backdrop-blur-md shadow-lg">
+            <div>
+              <p class="font-sans text-xs font-semibold text-ink">Tushar Moraye</p>
+              <p class="font-mono text-[10px] text-muted">Senior AI Engineer @ Atlan</p>
+            </div>
+            <div class="flex items-center gap-1.5 font-mono text-[10px] text-accent">
+              <span class="size-1.5 rounded-full bg-accent animate-ping"></span>
+              <span>Mumbai / Remote</span>
+            </div>
+          </div>
+        </figure>
+      </div>
     </div>
   </div>
 </section>

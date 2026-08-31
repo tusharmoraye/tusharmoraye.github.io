@@ -1,5 +1,7 @@
 ---
+import { Image } from "astro:assets";
 import { impact } from "../data/site";
+import impactBg from "../assets/impact/impact_telemetry.jpg";
 
 // Every figure here comes from shipped work, not from spec-sheet decoration.
 const [lead, ...rest] = impact;
@@ -15,21 +17,18 @@ const [lead, ...rest] = impact;
       <article
         class="reveal relative col-span-full flex min-h-[280px] flex-col justify-end overflow-hidden rounded-[4px] border border-line p-7 md:col-span-4 md:min-h-[340px] md:p-9"
       >
-        <picture>
-          <source srcset="/img/impact.webp" type="image/webp" />
-          <img
-            src="/img/impact.jpg"
-            alt="A dark clouded sky, used as the backdrop for the performance figure"
-            width="1400"
-            height="800"
-            loading="lazy"
-            decoding="async"
-            class="plate absolute inset-0 size-full object-cover opacity-60 [html[data-theme='light']_&]:opacity-35"
-          />
-        </picture>
+        <Image
+          src={impactBg}
+          alt="Abstract telemetry data stream backdrop"
+          width={1400}
+          height={800}
+          loading="lazy"
+          decoding="async"
+          class="plate absolute inset-0 size-full object-cover opacity-80 [html[data-theme='light']_&]:opacity-50"
+        />
         <div
           class="absolute inset-0"
-          style="background: linear-gradient(160deg, transparent 8%, var(--c-bg) 88%);"
+          style="background: linear-gradient(160deg, transparent 15%, var(--c-bg) 92%);"
           aria-hidden="true"
         >
         </div>

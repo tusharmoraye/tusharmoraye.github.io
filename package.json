@@ -28,6 +28,7 @@
     "esbuild": true
   },
   "devDependencies": {
-    "@types/three": "^0.185.4"
+    "@types/three": "^0.185.4",
+    "sharp": "^0.35.4"
   }
 }

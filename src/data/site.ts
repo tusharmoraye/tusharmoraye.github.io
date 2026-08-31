@@ -17,36 +17,58 @@ export const site = {
 
 export const services = [
   {
-    key: "conversational",
-    icon: "ph:chats-circle-bold",
-    title: "Conversational AI surfaces",
+    key: "ai",
+    icon: "ph:robot-bold",
+    title: "AI & Agentic Systems",
+    subtitle: "Conversational copilots, MCP tool orchestration & LLM evaluation",
     body:
-      "Chat and copilot interfaces on Vercel ai-sdk, wired to MCP servers with human in the loop tool calls, streaming state, and interrupt handling.",
-    points: ["Vercel ai-sdk", "MCP servers", "Human in the loop", "Agentic widgets"],
+      "End-to-end AI product engineering from streaming conversational interfaces to empirical eval harnesses. Specializing in Vercel ai-sdk, Model Context Protocol (MCP) tool execution with human-in-the-loop controls, and client-side WebAssembly ML inference.",
+    points: [
+      "Vercel ai-sdk & Streaming",
+      "Model Context Protocol (MCP)",
+      "LLM Eval & Regression Gates",
+      "Human-in-the-Loop Workflows",
+      "In-Browser Wasm Inference",
+      "Agentic Tool Routing",
+    ],
+    metric: "84+ E2E Eval Suites",
+    metricLabel: "Automated reliability release gating",
   },
   {
-    key: "eval",
-    icon: "ph:check-square-offset-bold",
-    title: "Evaluation and reliability",
+    key: "web",
+    icon: "ph:browsers-bold",
+    title: "Product UI/UX & Web Performance",
+    subtitle: "Sub-second load times, design systems & micro-interactions",
     body:
-      "LLM evaluation harnesses that gate releases on response structure and tool call correctness, so an AI feature ships on evidence rather than vibes.",
-    points: ["Empirical E2E suites", "Tool call assertions", "Regression gating", "Failure triage"],
+      "Crafting buttery-smooth, accessible digital experiences with sub-second LCP and near-zero INP. Designing scalable design systems, expressive micro-interactions with GSAP, and resilient frontend architectures across Astro, Next.js, and Tailwind.",
+    points: [
+      "Sub-second LCP & INP Budgets",
+      "Design Systems & Token Architectures",
+      "GSAP & Framer Micro-Interactions",
+      "Astro, Next.js & Modern Web",
+      "100/100 Lighthouse Performance",
+      "WCAG AA Accessibility",
+    ],
+    metric: "< 0.6s LCP / 32ms INP",
+    metricLabel: "Top 1% Core Web Vitals across millions of visits",
   },
   {
-    key: "platform",
-    icon: "ph:gauge-bold",
-    title: "Product platform and performance",
+    key: "fullstack",
+    icon: "ph:tree-structure-bold",
+    title: "Scalable Full-Stack Architecture",
+    subtitle: "Event-driven backends, distributed caching & cloud infrastructure",
     body:
-      "The unglamorous half. Web performance budgets, event driven backends, and CI that stays green while the team ships every day.",
-    points: ["INP and LCP work", "Kafka and Redis", "Kubernetes", "Frontend CI"],
-  },
-  {
-    key: "ml-web",
-    icon: "ph:cpu-bold",
-    title: "ML in the browser",
-    body:
-      "Shipping model inference where the user already is. WebAssembly runtimes, JS SDKs, and commerce integrations that survive real retail traffic.",
-    points: ["WebAssembly inference", "Embeddable JS SDKs", "Shopify apps", "AR try on"],
+      "Engineering robust distributed backends and event-driven architectures that thrive under high-concurrency production load. Deep experience with Kafka event pipelines, Redis caching strategies, Kubernetes orchestration, and resilient APIs.",
+    points: [
+      "Kafka Streaming Pipelines",
+      "Redis Distributed Caching",
+      "Kubernetes & Container Orchestration",
+      "Node.js, Go & Python Backends",
+      "PostgreSQL & Vector Databases",
+      "Zero-Downtime CI/CD",
+    ],
+    metric: "20M+ Visits Handled",
+    metricLabel: "Zero-downtime event-driven production platforms",
   },
 ];
 
