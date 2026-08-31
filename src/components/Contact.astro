@@ -1,0 +1,211 @@
+---
+import { Icon } from "astro-icon/components";
+import { site } from "../data/site";
+---
+
+<section id="contact" class="relative overflow-hidden border-t border-line py-24 md:py-32">
+  <div
+    class="pointer-events-none absolute inset-x-0 bottom-[-30%] h-[70vh] blur-[130px]"
+    style="background: radial-gradient(closest-side, var(--glow), transparent);"
+    aria-hidden="true"
+  >
+  </div>
+
+  <div class="shell relative grid gap-14 lg:grid-cols-12 lg:gap-16">
+    <div class="lg:col-span-5">
+      <h2 class="max-w-[14ch] text-[clamp(2.2rem,5vw,4rem)] font-semibold leading-[1.03] tracking-[-0.03em]">
+        Have an AI feature that needs to ship?
+      </h2>
+      <p class="mt-6 max-w-[42ch] text-base leading-relaxed text-muted">
+        Consulting engagements, contract builds, and full time roles are all worth a message.
+      </p>
+
+      <ul class="mt-10 flex flex-col gap-3">
+        <li>
+          <a
+            href={`mailto:${site.email}`}
+            class="group inline-flex items-center gap-3 text-[15px] font-medium transition-colors hover:text-accent"
+          >
+            <Icon name="ph:envelope-simple-bold" class="size-4 text-accent" />
+            {site.email}
+          </a>
+        </li>
+        <li>
+          <a
+            href={site.linkedin}
+            rel="me noopener"
+            target="_blank"
+            class="inline-flex items-center gap-3 text-[15px] font-medium transition-colors hover:text-accent"
+          >
+            <Icon name="ph:linkedin-logo-bold" class="size-4 text-accent" />
+            linkedin.com/in/tusharmoraye
+          </a>
+        </li>
+        <li>
+          <a
+            href={site.github}
+            rel="me noopener"
+            target="_blank"
+            class="inline-flex items-center gap-3 text-[15px] font-medium transition-colors hover:text-accent"
+          >
+            <Icon name="ph:github-logo-bold" class="size-4 text-accent" />
+            github.com/tusharmoraye
+          </a>
+        </li>
+      </ul>
+    </div>
+
+    <div class="lg:col-span-6 lg:col-start-7">
+      <form
+        id="contact-form"
+        novalidate
+        data-endpoint={site.contactEndpoint}
+        data-mailto={site.email}
+        class="rounded-[4px] border border-line bg-surface p-6 md:p-8"
+      >
+        <div class="flex flex-col gap-6">
+          <div class="flex flex-col gap-2">
+            <label for="cf-name" class="text-[13px] font-medium text-ink">Name</label>
+            <input
+              id="cf-name"
+              name="name"
+              type="text"
+              autocomplete="name"
+              class="w-full rounded-[4px] border border-line bg-bg px-4 py-3 text-[15px] text-ink placeholder:text-muted focus:border-accent focus:outline-none"
+            />
+            <p class="text-[12px] text-danger" data-error-for="name" hidden>Please add your name.</p>
+          </div>
+
+          <div class="flex flex-col gap-2">
+            <label for="cf-email" class="text-[13px] font-medium text-ink">Email</label>
+            <input
+              id="cf-email"
+              name="email"
+              type="email"
+              autocomplete="email"
+              class="w-full rounded-[4px] border border-line bg-bg px-4 py-3 text-[15px] text-ink placeholder:text-muted focus:border-accent focus:outline-none"
+            />
+            <p class="text-[12px] text-muted" data-hint-for="email">
+              Used only to reply to this message.
+            </p>
+            <p class="text-[12px] text-danger" data-error-for="email" hidden>
+              That email address does not look right.
+            </p>
+          </div>
+
+          <div class="flex flex-col gap-2">
+            <label for="cf-message" class="text-[13px] font-medium text-ink">What do you need built?</label>
+            <textarea
+              id="cf-message"
+              name="message"
+              rows="5"
+              class="w-full resize-y rounded-[4px] border border-line bg-bg px-4 py-3 text-[15px] text-ink placeholder:text-muted focus:border-accent focus:outline-none"
+            ></textarea>
+            <p class="text-[12px] text-danger" data-error-for="message" hidden>
+              A sentence or two is enough to start.
+            </p>
+          </div>
+
+          <div class="flex flex-wrap items-center gap-4">
+            <button type="submit" id="cf-submit" class="btn btn-primary">
+              <span data-state="idle">Get in touch</span>
+              <span data-state="busy" hidden>Sending</span>
+              <Icon name="ph:arrow-up-right-bold" class="size-4" />
+            </button>
+            <p
+              id="cf-status"
+              role="status"
+              aria-live="polite"
+              class="text-[13px] text-muted"
+            >
+            </p>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</section>
+
+<script>
+  const form = document.getElementById("contact-form") as HTMLFormElement | null;
+  if (form) {
+    const status = document.getElementById("cf-status")!;
+    const submit = document.getElementById("cf-submit") as HTMLButtonElement;
+    const idle = submit.querySelector<HTMLElement>('[data-state="idle"]')!;
+    const busy = submit.querySelector<HTMLElement>('[data-state="busy"]')!;
+    const endpoint = form.dataset.endpoint ?? "";
+    const mailTarget = form.dataset.mailto ?? "";
+
+    const showError = (field: string, on: boolean) => {
+      const el = form.querySelector<HTMLElement>(`[data-error-for="${field}"]`);
+      const input = form.querySelector<HTMLInputElement>(`[name="${field}"]`);
+      if (el) el.hidden = !on;
+      if (input) {
+        input.setAttribute("aria-invalid", String(on));
+        input.classList.toggle("!border-danger", on);
+      }
+    };
+
+    const setBusy = (on: boolean) => {
+      submit.disabled = on;
+      submit.classList.toggle("opacity-60", on);
+      idle.hidden = on;
+      busy.hidden = !on;
+    };
+
+    form.addEventListener("submit", async (e) => {
+      e.preventDefault();
+      const data = new FormData(form);
+      const name = String(data.get("name") ?? "").trim();
+      const email = String(data.get("email") ?? "").trim();
+      const message = String(data.get("message") ?? "").trim();
+
+      const bad = {
+        name: name.length < 2,
+        email: !/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(email),
+        message: message.length < 10,
+      };
+      (Object.keys(bad) as Array<keyof typeof bad>).forEach((k) => showError(k, bad[k]));
+      if (Object.values(bad).some(Boolean)) {
+        status.textContent = "Fix the highlighted fields and try again.";
+        status.className = "text-[13px] text-danger";
+        return;
+      }
+
+      status.textContent = "";
+      setBusy(true);
+
+      // No form endpoint configured yet, so the message is handed to the mail client.
+      if (!endpoint) {
+        const subject = encodeURIComponent(`Project enquiry from ${name}`);
+        const body = encodeURIComponent(`${message}\n\nReply to: ${email}`);
+        window.location.href = `mailto:${mailTarget}?subject=${subject}&body=${body}`;
+        setBusy(false);
+        status.textContent = "Your mail client should be open with the message ready.";
+        status.className = "text-[13px] text-ok";
+        return;
+      }
+
+      try {
+        const res = await fetch(endpoint, {
+          method: "POST",
+          headers: { "Content-Type": "application/json", Accept: "application/json" },
+          body: JSON.stringify({ name, email, message }),
+        });
+        if (!res.ok) throw new Error(String(res.status));
+        form.reset();
+        status.textContent = "Message received. You will hear back within a day or two.";
+        status.className = "text-[13px] text-ok";
+      } catch {
+        status.textContent = `Sending failed. Please email ${mailTarget} directly.`;
+        status.className = "text-[13px] text-danger";
+      } finally {
+        setBusy(false);
+      }
+    });
+
+    form.querySelectorAll<HTMLInputElement>("input, textarea").forEach((el) => {
+      el.addEventListener("input", () => showError(el.name, false));
+    });
+  }
+</script>

@@ -1,0 +1,42 @@
+---
+import * as si from "simple-icons";
+
+// Real brand marks from the simple-icons package, rendered in the page's own ink
+// colour so the strip holds in both themes. No invented logos, no category labels.
+const marks = [
+  si.siTypescript,
+  si.siReact,
+  si.siNextdotjs,
+  si.siVuedotjs,
+  si.siNodedotjs,
+  si.siPython,
+  si.siWebassembly,
+  si.siRedis,
+  si.siApachekafka,
+  si.siKubernetes,
+  si.siDocker,
+  si.siVercel,
+];
+---
+
+<section aria-label="Technologies used in production" class="border-y border-line bg-surface/40">
+  <div class="shell flex flex-col gap-8 py-10 lg:flex-row lg:items-center lg:gap-14 lg:py-8">
+    <p class="label-mono shrink-0">Shipped with</p>
+    <ul class="grid grid-cols-4 gap-x-6 gap-y-8 sm:grid-cols-6 lg:flex lg:flex-1 lg:justify-between lg:gap-8">
+      {
+        marks.map((m, i) => (
+          <li class="reveal flex items-center justify-center" style={`--reveal-delay:${i * 45}ms`}>
+            <svg
+              role="img"
+              aria-label={m.title}
+              viewBox="0 0 24 24"
+              class="size-6 fill-current text-muted transition-colors duration-300 hover:text-accent"
+            >
+              <path d={m.path} />
+            </svg>
+          </li>
+        ))
+      }
+    </ul>
+  </div>
+</section>

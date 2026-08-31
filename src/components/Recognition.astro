@@ -1,0 +1,20 @@
+---
+import { recognition } from "../data/site";
+---
+
+<section aria-label="Recognition" class="relative border-t border-line py-20 md:py-24">
+  <div class="shell">
+    <p class="label-mono">Recognition</p>
+    <div class="mt-10 flex flex-col gap-10 md:flex-row md:items-start md:gap-16">
+      {
+        recognition.map((r, i) => (
+          <div class="reveal flex-1" style={`--reveal-delay:${i * 90}ms`}>
+            <p class="font-mono text-[11px] text-accent">{r.year}</p>
+            <h3 class="mt-3 text-xl font-semibold tracking-tight">{r.title}</h3>
+            <p class="mt-2 max-w-[38ch] text-[14px] leading-relaxed text-muted">{r.detail}</p>
+          </div>
+        ))
+      }
+    </div>
+  </div>
+</section>

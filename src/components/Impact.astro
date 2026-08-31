@@ -1,0 +1,111 @@
+---
+import { impact } from "../data/site";
+
+// Every figure here comes from shipped work, not from spec-sheet decoration.
+const [lead, ...rest] = impact;
+---
+
+<section id="impact" class="relative py-24 md:py-32">
+  <div class="shell">
+    <h2 class="max-w-[20ch] text-[clamp(2rem,4.4vw,3.6rem)] font-semibold leading-[1.05] tracking-[-0.03em]">
+      Numbers that came out the other side.
+    </h2>
+
+    <div class="mt-12 grid gap-4 md:grid-cols-6">
+      <article
+        class="reveal relative col-span-full flex min-h-[280px] flex-col justify-end overflow-hidden rounded-[4px] border border-line p-7 md:col-span-4 md:min-h-[340px] md:p-9"
+      >
+        <picture>
+          <source srcset="/img/impact.webp" type="image/webp" />
+          <img
+            src="/img/impact.jpg"
+            alt="A dark clouded sky, used as the backdrop for the performance figure"
+            width="1400"
+            height="800"
+            loading="lazy"
+            decoding="async"
+            class="plate absolute inset-0 size-full object-cover opacity-60 [html[data-theme='light']_&]:opacity-35"
+          />
+        </picture>
+        <div
+          class="absolute inset-0"
+          style="background: linear-gradient(160deg, transparent 8%, var(--c-bg) 88%);"
+          aria-hidden="true"
+        >
+        </div>
+        <div class="relative">
+          <p class="font-mono text-[clamp(3rem,8vw,5.5rem)] font-bold leading-none tracking-tight text-accent">
+            <span class="count" data-to={lead.value}>0</span>{lead.suffix}
+          </p>
+          <p class="mt-4 max-w-[24ch] text-lg font-medium leading-snug">{lead.label}</p>
+          <p class="mt-1 font-mono text-[11px] text-muted">{lead.note}</p>
+        </div>
+      </article>
+
+      <article
+        class="reveal col-span-full flex flex-col justify-between rounded-[4px] p-7 md:col-span-2 md:p-8"
+        style="--reveal-delay:80ms; background: linear-gradient(150deg, var(--c-accent-soft), transparent 70%), var(--c-surface); border: 1px solid var(--c-line);"
+      >
+        <p class="font-mono text-[clamp(2.2rem,4vw,3rem)] font-bold leading-none tracking-tight">
+          {rest[0].prefix}<span class="count" data-to={rest[0].value}>0</span>{rest[0].suffix}
+        </p>
+        <div class="mt-8">
+          <p class="max-w-[20ch] text-[15px] font-medium leading-snug">{rest[0].label}</p>
+          <p class="mt-1 font-mono text-[11px] text-muted">{rest[0].note}</p>
+        </div>
+      </article>
+
+      {
+        rest.slice(1).map((m, i) => (
+          <article
+            class="reveal col-span-full flex flex-col justify-between rounded-[4px] border border-line bg-surface p-7 md:col-span-2 md:p-8"
+            style={`--reveal-delay:${(i + 2) * 80}ms`}
+          >
+            <p class="font-mono text-[clamp(2.2rem,4vw,3rem)] font-bold leading-none tracking-tight">
+              <span class="count" data-to={m.value}>
+                0
+              </span>
+              {m.suffix}
+            </p>
+            <div class="mt-8">
+              <p class="max-w-[20ch] text-[15px] font-medium leading-snug">{m.label}</p>
+              <p class="mt-1 font-mono text-[11px] text-muted">{m.note}</p>
+            </div>
+          </article>
+        ))
+      }
+    </div>
+  </div>
+</section>
+
+<script>
+  // Motion rationale: the count draws the eye to the figure itself, which is the
+  // only thing this section is asking the reader to take away.
+  const reduce = window.matchMedia("(prefers-reduced-motion: reduce)");
+  const nodes = document.querySelectorAll<HTMLElement>(".count");
+
+  if (reduce.matches) {
+    nodes.forEach((n) => (n.textContent = n.dataset.to ?? "0"));
+  } else {
+    const io = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (!entry.isIntersecting) return;
+          const el = entry.target as HTMLElement;
+          io.unobserve(el);
+          const to = Number(el.dataset.to ?? 0);
+          const started = performance.now();
+          const step = (now: number) => {
+            const t = Math.min((now - started) / 1100, 1);
+            const eased = 1 - Math.pow(1 - t, 3);
+            el.textContent = String(Math.round(to * eased));
+            if (t < 1) requestAnimationFrame(step);
+          };
+          requestAnimationFrame(step);
+        });
+      },
+      { threshold: 0.5 },
+    );
+    nodes.forEach((n) => io.observe(n));
+  }
+</script>

@@ -1,0 +1,97 @@
+---
+import { timeline } from "../data/site";
+---
+
+<section id="experience" class="relative border-t border-line py-24 md:py-32">
+  <div class="shell">
+    <h2 class="max-w-[16ch] text-[clamp(2rem,4.4vw,3.6rem)] font-semibold leading-[1.05] tracking-[-0.03em]">
+      Eight years, three teams.
+    </h2>
+
+    <div id="rail" class="relative mt-16 pl-8 md:pl-14">
+      <div class="absolute left-0 top-2 bottom-2 w-px bg-line md:left-2" aria-hidden="true"></div>
+      <div
+        id="rail-fill"
+        class="absolute left-0 top-2 h-[calc(100%-1rem)] w-px origin-top bg-accent md:left-2"
+        style="transform: scaleY(0);"
+        aria-hidden="true"
+      >
+      </div>
+
+      <ol class="flex flex-col gap-16 md:gap-20">
+        {
+          timeline.map((t) => (
+            <li class="reveal relative grid gap-6 md:grid-cols-12 md:gap-10">
+              <span
+                class="absolute -left-8 top-3 h-px w-5 bg-accent md:-left-12 md:w-6"
+                aria-hidden="true"
+              />
+              <div class="md:col-span-4">
+                <h3 class="text-2xl font-semibold tracking-tight">{t.org}</h3>
+                <p class="mt-1.5 text-[15px] text-muted">{t.role}</p>
+                <p class="mt-4 font-mono text-[11px] text-muted">
+                  {t.period}
+                  <br />
+                  {t.place}
+                </p>
+              </div>
+              <div class="md:col-span-8">
+                <ul class="flex flex-col gap-4">
+                  {t.lines.map((line) => (
+                    <li class="max-w-[68ch] text-[15px] leading-relaxed text-muted">{line}</li>
+                  ))}
+                </ul>
+              </div>
+            </li>
+          ))
+        }
+      </ol>
+    </div>
+
+    <p class="reveal mt-16 max-w-[68ch] border-t border-line pt-8 text-[15px] leading-relaxed text-muted">
+      Before all of that: a B.E. in Computer Science and Engineering from the University of Mumbai,
+      2014 to 2018, with coursework in machine learning, artificial intelligence and database
+      systems.
+    </p>
+  </div>
+</section>
+
+<script>
+  import { gsap } from "gsap";
+  import { ScrollTrigger } from "gsap/ScrollTrigger";
+
+  gsap.registerPlugin(ScrollTrigger);
+
+  const rail = document.getElementById("rail");
+  const fill = document.getElementById("rail-fill");
+  const reduce = window.matchMedia("(prefers-reduced-motion: reduce)");
+  let ctx: gsap.Context | null = null;
+
+  // Motion rationale: the rail fills as the reader moves down the career, so
+  // position in the story is legible without a progress label.
+  const build = () => {
+    ctx?.revert();
+    ctx = null;
+    if (!rail || !fill) return;
+    if (reduce.matches) {
+      fill.style.transform = "scaleY(1)";
+      return;
+    }
+    ctx = gsap.context(() => {
+      gsap.to(fill, {
+        scaleY: 1,
+        ease: "none",
+        scrollTrigger: {
+          trigger: rail,
+          start: "top 70%",
+          end: "bottom 70%",
+          scrub: 0.6,
+          invalidateOnRefresh: true,
+        },
+      });
+    }, rail);
+  };
+
+  build();
+  reduce.addEventListener("change", build);
+</script>

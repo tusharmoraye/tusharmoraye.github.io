@@ -1,0 +1,120 @@
+---
+import "../styles/global.css";
+import { site } from "../data/site";
+
+interface Props {
+  title?: string;
+  description?: string;
+}
+
+const { title = site.title, description = site.description } = Astro.props;
+const canonical = new URL(Astro.url.pathname, Astro.site ?? site.domain).href.replace(/\/$/, "");
+const ogImage = new URL("/og.png", Astro.site ?? site.domain).href;
+
+const personSchema = {
+  "@context": "https://schema.org",
+  "@type": "Person",
+  name: site.name,
+  url: site.domain,
+  email: `mailto:${site.email}`,
+  jobTitle: "AI Product Engineer",
+  description: site.description,
+  image: ogImage,
+  sameAs: [site.linkedin, site.github],
+  address: { "@type": "PostalAddress", addressLocality: "Mumbai", addressCountry: "IN" },
+  knowsAbout: [
+    "Conversational AI",
+    "Vercel ai-sdk",
+    "Model Context Protocol",
+    "LLM evaluation",
+    "Web performance",
+    "WebAssembly",
+  ],
+  alumniOf: { "@type": "CollegeOrUniversity", name: "University of Mumbai" },
+  worksFor: { "@type": "Organization", name: "Atlan" },
+};
+
+const proSchema = {
+  "@context": "https://schema.org",
+  "@type": "ProfessionalService",
+  name: `${site.name}, AI product engineering`,
+  url: site.domain,
+  areaServed: "Worldwide",
+  serviceType: [
+    "AI product engineering",
+    "Conversational AI interfaces",
+    "LLM evaluation",
+    "Web performance engineering",
+  ],
+  provider: { "@type": "Person", name: site.name },
+};
+---
+
+<!doctype html>
+<html lang="en" data-theme="dark">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonical} />
+    <link rel="sitemap" href="/sitemap-index.xml" />
+    <meta name="author" content={site.name} />
+    <meta name="robots" content="index, follow, max-image-preview:large" />
+    <meta name="theme-color" content="#08090b" media="(prefers-color-scheme: dark)" />
+    <meta name="theme-color" content="#f4f5f7" media="(prefers-color-scheme: light)" />
+
+    <meta property="og:type" content="profile" />
+    <meta property="og:site_name" content={site.name} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:image" content={ogImage} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content={`${site.name}, ${site.role}`} />
+    <meta property="og:locale" content="en_US" />
+
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={ogImage} />
+
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="preload" as="image" href="/img/hero.webp" type="image/webp" fetchpriority="high" />
+
+    <script is:inline>
+      // Theme resolution before first paint so the page never flashes the wrong mode.
+      (function () {
+        try {
+          // Dark is the brand default. Light is opt in through the header toggle.
+          var stored = localStorage.getItem("tm-theme");
+          document.documentElement.setAttribute("data-theme", stored === "light" ? "light" : "dark");
+        } catch (e) {
+          document.documentElement.setAttribute("data-theme", "dark");
+        }
+        if (!window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+          document.documentElement.classList.add("motion-on");
+        }
+      })();
+    </script>
+
+    <script type="application/ld+json" set:html={JSON.stringify(personSchema)} />
+    <script type="application/ld+json" set:html={JSON.stringify(proSchema)} />
+  </head>
+  <body>
+    <a
+      href="#work"
+      class="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-[80] focus:bg-accent focus:text-accent-ink focus:px-4 focus:py-2 focus:rounded-[4px] focus:font-mono focus:text-xs"
+      >Skip to the work</a
+    >
+    <slot />
+    <svg class="grain" aria-hidden="true" focusable="false">
+      <filter id="grain-noise">
+        <feTurbulence type="fractalNoise" baseFrequency="0.85" numOctaves="3" stitchTiles="stitch" />
+        <feColorMatrix type="saturate" values="0" />
+      </filter>
+      <rect width="100%" height="100%" filter="url(#grain-noise)" opacity="0.16" />
+    </svg>
+  </body>
+</html>

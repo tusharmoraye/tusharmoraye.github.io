@@ -1,0 +1,113 @@
+---
+import { work } from "../data/site";
+---
+
+<section id="work" class="relative py-24 md:py-28">
+  <div class="shell">
+    <h2 class="max-w-[18ch] text-[clamp(2rem,4.4vw,3.6rem)] font-semibold leading-[1.05] tracking-[-0.03em]">
+      Work that went live and stayed live.
+    </h2>
+  </div>
+
+  <div id="work-stack" class="relative mt-14">
+    {
+      work.map((w) => (
+        <article
+          class="stack-card sticky top-0 flex min-h-[100dvh] items-center bg-bg py-16"
+          data-key={w.key}
+        >
+          <div class="shell grid w-full items-center gap-10 border-t border-line pt-10 lg:grid-cols-12 lg:gap-14">
+            <div class="lg:col-span-5">
+              <p class="font-mono text-[13px] font-medium text-accent">{w.company}</p>
+              <h3 class="mt-5 text-[clamp(1.6rem,3vw,2.6rem)] font-semibold leading-[1.1] tracking-[-0.025em]">
+                {w.title}
+              </h3>
+              <p class="mt-5 max-w-[52ch] text-[15px] leading-relaxed text-muted">{w.body}</p>
+
+              <div class="mt-8 flex items-baseline gap-4">
+                <span class="font-mono text-4xl font-bold tracking-tight text-accent md:text-5xl">
+                  {w.stat}
+                </span>
+                <span class="max-w-[22ch] text-[13px] leading-snug text-muted">{w.statLabel}</span>
+              </div>
+
+              <ul class="mt-8 flex flex-wrap gap-2">
+                {w.tags.map((t) => (
+                  <li class="rounded-[4px] border border-line px-2.5 py-1 font-mono text-[11px] text-muted">
+                    {t}
+                  </li>
+                ))}
+              </ul>
+              <p class="mt-6 font-mono text-[11px] text-muted">{w.year}</p>
+            </div>
+
+            <figure class="lg:col-span-7">
+              <div class="overflow-hidden rounded-[4px] border border-line bg-surface-2">
+                <picture>
+                  <source srcset={`${w.img}.webp`} type="image/webp" />
+                  <img
+                    src={`${w.img}.jpg`}
+                    alt={w.alt}
+                    width="1200"
+                    height="900"
+                    loading="lazy"
+                    decoding="async"
+                    class="plate aspect-[4/3] w-full object-cover"
+                  />
+                </picture>
+              </div>
+            </figure>
+          </div>
+        </article>
+      ))
+    }
+  </div>
+</section>
+
+<script>
+  import { gsap } from "gsap";
+  import { ScrollTrigger } from "gsap/ScrollTrigger";
+
+  gsap.registerPlugin(ScrollTrigger);
+
+  const root = document.getElementById("work-stack") as HTMLElement | null;
+  const reduce = window.matchMedia("(prefers-reduced-motion: reduce)");
+  let ctx: gsap.Context | null = null;
+
+  // Motion rationale: the four case studies physically stack, so the reader always
+  // sees the previous project recede rather than scroll away and disappear.
+  const build = () => {
+    ctx?.revert();
+    ctx = null;
+    if (reduce.matches || !root) return;
+
+    ctx = gsap.context(() => {
+      const cards = gsap.utils.toArray<HTMLElement>(".stack-card");
+      cards.forEach((card, i) => {
+        if (i === cards.length - 1) return;
+        ScrollTrigger.create({
+          trigger: card,
+          start: "top top",
+          endTrigger: cards[cards.length - 1],
+          end: "top top",
+          pin: true,
+          pinSpacing: false,
+        });
+        gsap.to(card, {
+          scale: 0.94,
+          opacity: 0.35,
+          ease: "none",
+          scrollTrigger: {
+            trigger: cards[i + 1],
+            start: "top bottom",
+            end: "top top",
+            scrub: true,
+          },
+        });
+      });
+    }, root);
+  };
+
+  build();
+  reduce.addEventListener("change", build);
+</script>

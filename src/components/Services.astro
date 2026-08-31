@@ -1,0 +1,108 @@
+---
+import { Icon } from "astro-icon/components";
+import { services } from "../data/site";
+---
+
+<section id="capabilities" class="relative py-24 md:py-32">
+  <div class="shell">
+    <h2 class="max-w-[16ch] text-[clamp(2rem,4.4vw,3.6rem)] font-semibold leading-[1.05] tracking-[-0.03em]">
+      Four things teams keep hiring me for.
+    </h2>
+    <p class="mt-5 max-w-[62ch] text-base leading-relaxed text-muted">
+      The common thread is taking a model capability and turning it into something a customer can
+      rely on every day.
+    </p>
+  </div>
+</section>
+
+<section
+  id="services-pan"
+  class="relative overflow-hidden border-y border-line bg-surface/40"
+  aria-label="Capabilities"
+>
+  <div
+    id="services-track"
+    class="flex gap-6 overflow-x-auto px-5 py-16 md:px-10 xl:px-16 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
+    style="scroll-snap-type: x mandatory;"
+  >
+    {
+      services.map((s) => (
+        <article
+          class="service-panel flex w-[82vw] shrink-0 flex-col justify-between rounded-[4px] border border-line bg-bg p-7 sm:w-[440px] md:p-9 lg:w-[520px]"
+          style="scroll-snap-align: center;"
+        >
+          <div>
+            <Icon name={s.icon} class="size-6 text-accent" />
+            <h3 class="mt-6 text-2xl font-semibold tracking-tight md:text-3xl">{s.title}</h3>
+            <p class="mt-4 max-w-[46ch] text-[15px] leading-relaxed text-muted">{s.body}</p>
+          </div>
+          <ul class="mt-10 flex flex-wrap gap-2">
+            {s.points.map((p) => (
+              <li class="rounded-[4px] border border-line bg-surface-2 px-3 py-1.5 font-mono text-[11px] tracking-wide text-muted">
+                {p}
+              </li>
+            ))}
+          </ul>
+        </article>
+      ))
+    }
+  </div>
+</section>
+
+<script>
+  import { gsap } from "gsap";
+  import { ScrollTrigger } from "gsap/ScrollTrigger";
+
+  gsap.registerPlugin(ScrollTrigger);
+
+  const wrap = document.getElementById("services-pan") as HTMLElement | null;
+  const track = document.getElementById("services-track") as HTMLElement | null;
+  const reduce = window.matchMedia("(prefers-reduced-motion: reduce)");
+
+  let ctx: gsap.Context | null = null;
+
+  // Motion rationale: the four capabilities read as one traverse rather than a
+  // stacked list, so vertical scroll drives a horizontal pan while the section is pinned.
+  const build = () => {
+    ctx?.revert();
+    ctx = null;
+    if (reduce.matches || !wrap || !track || window.innerWidth < 768) return;
+
+    ctx = gsap.context(() => {
+      track.style.overflowX = "hidden";
+      const distance = () => track.scrollWidth - window.innerWidth;
+      gsap.to(track, {
+        x: () => -distance(),
+        ease: "none",
+        scrollTrigger: {
+          trigger: wrap,
+          start: "top top",
+          end: () => `+=${distance()}`,
+          pin: true,
+          scrub: 1,
+          invalidateOnRefresh: true,
+        },
+      });
+    }, wrap);
+  };
+
+  build();
+  reduce.addEventListener("change", build);
+
+  // Crossing the 768px boundary swaps between the pinned pan and native
+  // scroll snapping, so the section is rebuilt when the width actually changes.
+  let lastWidth = window.innerWidth;
+  let resizeTimer: number | undefined;
+  const onResize = () => {
+    if (window.innerWidth === lastWidth) return;
+    lastWidth = window.innerWidth;
+    window.clearTimeout(resizeTimer);
+    resizeTimer = window.setTimeout(() => {
+      if (track) track.style.overflowX = "";
+      build();
+      ScrollTrigger.refresh();
+    }, 180);
+  };
+  window.addEventListener("resize", onResize);
+  window.addEventListener("orientationchange", onResize);
+</script>

@@ -1,0 +1,31 @@
+---
+import { capabilities } from "../data/site";
+
+const spans = ["lg:col-span-5", "lg:col-span-3", "lg:col-span-4"];
+---
+
+<section id="stack" class="relative overflow-hidden border-t border-line bg-surface/40 py-24 md:py-32">
+  <div class="rule-grid pointer-events-none absolute inset-0 opacity-60" aria-hidden="true"></div>
+
+  <div class="shell relative">
+    <h2 class="max-w-[22ch] text-[clamp(2rem,4.4vw,3.6rem)] font-semibold leading-[1.05] tracking-[-0.03em]">
+      The toolkit, grouped by where it sits.
+    </h2>
+
+    <div class="mt-14 grid gap-x-10 gap-y-14 lg:grid-cols-12">
+      {
+        capabilities.map((c, i) => (
+          <div class={`reveal ${spans[i]}`} style={`--reveal-delay:${i * 110}ms`}>
+            <div class="h-px w-full bg-line-strong" />
+            <h3 class="mt-6 text-lg font-semibold tracking-tight">{c.group}</h3>
+            <ul class="mt-6 flex flex-col gap-3">
+              {c.items.map((item) => (
+                <li class="font-mono text-[13px] leading-relaxed text-muted">{item}</li>
+              ))}
+            </ul>
+          </div>
+        ))
+      }
+    </div>
+  </div>
+</section>
