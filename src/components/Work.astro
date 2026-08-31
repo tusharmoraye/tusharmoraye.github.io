@@ -1,4 +1,5 @@
 ---
+import { Icon } from "astro-icon/components";
 import { work } from "../data/site";
 ---
 
@@ -38,11 +39,26 @@ import { work } from "../data/site";
                   </li>
                 ))}
               </ul>
-              <p class="mt-6 font-mono text-[11px] text-muted">{w.year}</p>
+              <div class="mt-6 flex flex-wrap items-center gap-x-5 gap-y-2">
+                <p class="font-mono text-[11px] text-muted">{w.year}</p>
+                <a
+                  href={w.link}
+                  target="_blank"
+                  rel="noopener"
+                  class="group inline-flex items-center gap-1.5 font-mono text-[11px] text-muted underline-offset-4 transition-colors hover:text-accent hover:underline"
+                >
+                  {w.linkLabel}
+                  <Icon
+                    name="ph:arrow-up-right-bold"
+                    class="size-3 transition-transform group-hover:-translate-y-px group-hover:translate-x-px"
+                  />
+                  <span class="sr-only">, opens in a new tab</span>
+                </a>
+              </div>
             </div>
 
             <figure class="lg:col-span-7">
-              <div class="overflow-hidden rounded-[4px] border border-line bg-surface-2">
+              <div class="plate-frame overflow-hidden rounded-[4px] border border-line bg-surface-2">
                 <picture>
                   <source srcset={`${w.img}.webp`} type="image/webp" />
                   <img
