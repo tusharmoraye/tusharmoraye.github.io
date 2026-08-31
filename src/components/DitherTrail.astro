@@ -105,6 +105,7 @@
       const uniforms = {
         uPoints: { value: Array.from({ length: NODES }, () => new THREE.Vector2(-9999, -9999)) },
         uAccent: { value: new THREE.Color(0x4fd3e8) },
+        uSpark: { value: new THREE.Color(0xf0a868) },
         uEnergy: { value: 0 },
         uCell: { value: 7 },
         uDot: { value: 2.8 },
@@ -141,10 +142,11 @@
       };
 
       const readAccent = () => {
-        const raw = getComputedStyle(document.documentElement)
-          .getPropertyValue("--c-accent")
-          .trim();
-        if (raw) uniforms.uAccent.value.set(raw);
+        const styles = getComputedStyle(document.documentElement);
+        const accent = styles.getPropertyValue("--c-accent").trim();
+        const spark = styles.getPropertyValue("--c-spark").trim();
+        if (accent) uniforms.uAccent.value.set(accent);
+        if (spark) uniforms.uSpark.value.set(spark);
       };
 
       const frame = () => {
@@ -202,7 +204,7 @@
       // Dot colour follows the theme toggle.
       new MutationObserver(readAccent).observe(document.documentElement, {
         attributes: true,
-        attributeFilter: ["data-theme"],
+        attributeFilter: ["data-theme", "data-palette"],
       });
 
       readAccent();

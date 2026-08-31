@@ -17,6 +17,7 @@ export const fragmentShader = /* glsl */ `
 
   uniform vec2 uPoints[NODES];
   uniform vec3 uAccent;
+  uniform vec3 uSpark;
   uniform float uEnergy;
   uniform float uCell;    // dot pitch, device px
   uniform float uDot;     // drawn dot diameter, device px
@@ -63,6 +64,9 @@ export const fragmentShader = /* glsl */ `
     float alpha = dot * clamp(field * 1.15, 0.0, 0.92);
     if (alpha < 0.01) discard;
 
-    gl_FragColor = vec4(uAccent, alpha);
+    // Head reads in the accent, tail cools into the spark hue, so the trail
+    // carries both of the palette's colours instead of one flat wash.
+    float mixT = clamp(1.0 - field * 1.6, 0.0, 1.0);
+    gl_FragColor = vec4(mix(uAccent, uSpark, mixT), alpha);
   }
 `;

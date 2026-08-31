@@ -90,8 +90,14 @@ const proSchema = {
           // Dark is the brand default. Light is opt in through the header toggle.
           var stored = localStorage.getItem("tm-theme");
           document.documentElement.setAttribute("data-theme", stored === "light" ? "light" : "dark");
+          // Review tool: remembers which candidate palette is being compared.
+          document.documentElement.setAttribute(
+            "data-palette",
+            localStorage.getItem("tm-palette") || "signal",
+          );
         } catch (e) {
           document.documentElement.setAttribute("data-theme", "dark");
+          document.documentElement.setAttribute("data-palette", "signal");
         }
         if (!window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
           document.documentElement.classList.add("motion-on");

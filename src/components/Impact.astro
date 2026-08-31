@@ -44,9 +44,9 @@ const [lead, ...rest] = impact;
 
       <article
         class="reveal col-span-full flex flex-col justify-between rounded-[4px] p-7 md:col-span-2 md:p-8"
-        style="--reveal-delay:80ms; background: linear-gradient(150deg, var(--c-accent-soft), transparent 70%), var(--c-surface); border: 1px solid var(--c-line);"
+        style="--reveal-delay:80ms; background: linear-gradient(150deg, color-mix(in srgb, var(--c-spark) 16%, transparent), transparent 72%), var(--c-surface); border: 1px solid var(--c-line);"
       >
-        <p class="font-mono text-[clamp(2.2rem,4vw,3rem)] font-bold leading-none tracking-tight">
+        <p class="font-mono text-[clamp(2.2rem,4vw,3rem)] font-bold leading-none tracking-tight text-spark">
           {rest[0].prefix}<span class="count" data-to={rest[0].value}>0</span>{rest[0].suffix}
         </p>
         <div class="mt-8">

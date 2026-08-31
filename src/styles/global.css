@@ -18,6 +18,7 @@
   --c-accent: #4fd3e8;
   --c-accent-soft: #4fd3e81f;
   --c-accent-ink: #03222a;
+  --c-spark: #f0a868;
   --c-danger: #ff8f7a;
   --c-ok: #6fe0b0;
   --grid-line: #ffffff0a;
@@ -35,6 +36,7 @@
   --c-accent: #0b6d80;
   --c-accent-soft: #0b6d8014;
   --c-accent-ink: #ffffff;
+  --c-spark: #9a5b23;
   --c-danger: #a12a13;
   --c-ok: #0e6b4d;
   --grid-line: #0f172a0d;
@@ -52,6 +54,7 @@
   --color-accent: var(--c-accent);
   --color-accent-soft: var(--c-accent-soft);
   --color-accent-ink: var(--c-accent-ink);
+  --color-spark: var(--c-spark);
   --color-danger: var(--c-danger);
   --color-ok: var(--c-ok);
 
