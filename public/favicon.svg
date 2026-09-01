@@ -1,5 +1,14 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
-  <rect width="64" height="64" rx="6" fill="#08080d"/>
-  <text x="32" y="43" font-family="ui-monospace, monospace" font-size="28" font-weight="700"
-        fill="#8b9bff" text-anchor="middle">TM</text>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64">
+  <style>
+    :root { --plate: #08080d; --mark: #8b9bff; }
+    @media (prefers-color-scheme: light) {
+      :root { --plate: #fffdfa; --mark: #3a4bc4; }
+    }
+  </style>
+  <rect width="64" height="64" rx="8" fill="var(--plate)" />
+  <g fill="none" stroke="var(--mark)" stroke-width="7">
+    <path d="M12 16.5H52" />
+    <path d="M32 16.5V29.5" />
+    <path d="M16 51.5V32.5L32 48.5L48 32.5V51.5" />
+  </g>
 </svg>

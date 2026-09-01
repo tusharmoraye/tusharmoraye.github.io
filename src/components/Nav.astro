@@ -17,9 +17,21 @@ const links = [
   <nav class="shell flex h-full items-center justify-between gap-6" aria-label="Primary">
     <a href="#top" class="group flex items-center gap-3">
       <span
-        class="grid size-8 place-items-center rounded-[4px] border border-line-strong bg-surface font-mono text-[13px] font-bold text-accent"
-        >TM</span
+        class="grid size-8 place-items-center rounded-[4px] border border-line-strong bg-surface text-accent"
       >
+        <svg
+          viewBox="0 0 64 64"
+          class="size-5"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="7"
+          aria-hidden="true"
+        >
+          <path d="M12 16.5H52" />
+          <path d="M32 16.5V29.5" />
+          <path d="M16 51.5V32.5L32 48.5L48 32.5V51.5" />
+        </svg>
+      </span>
       <span class="hidden text-sm font-semibold tracking-tight sm:block">
         {site.name}<span class="text-muted font-normal">, {site.role}</span>
       </span>
