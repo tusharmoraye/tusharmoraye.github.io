@@ -1,0 +1,108 @@
+<!--
+  Source for src/assets/og.png, the 1200x630 social card.
+
+  Keep the copy here in sync with the hero in src/components/Hero.astro; a
+  stale card is the failure mode this file exists to prevent.
+
+  To regenerate, render this page at exactly 1200x630 with a headless browser
+  and screenshot the .card element, e.g. with the gstack browse tool:
+
+    browse viewport 1200x630 --scale 1
+    browse goto file://./scripts/og-card.html
+    browse screenshot --selector .card src/assets/og.png
+
+  Fonts and the portrait are pulled straight from the project so the card
+  cannot drift from the site's typography.
+-->
+<style>
+@font-face{font-family:SG;src:url(../node_modules/@fontsource-variable/space-grotesk/files/space-grotesk-latin-wght-normal.woff2) format('woff2');font-weight:100 900;font-display:block}
+@font-face{font-family:JB;src:url(../node_modules/@fontsource-variable/jetbrains-mono/files/jetbrains-mono-latin-wght-normal.woff2) format('woff2');font-weight:100 800;font-display:block}
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{width:1200px;height:630px;overflow:hidden}
+.card{position:relative;width:1200px;height:630px;background:#08080d;color:#f4f4f7;
+  font-family:SG,system-ui,sans-serif;overflow:hidden}
+/* rule grid, same 72px cell as the site */
+.grid{position:absolute;inset:0;
+  background-image:linear-gradient(to right,rgba(255,255,255,.035) 1px,transparent 1px),
+                   linear-gradient(to bottom,rgba(255,255,255,.035) 1px,transparent 1px);
+  background-size:72px 72px}
+.glow{position:absolute;width:900px;height:700px;left:-220px;top:-260px;border-radius:50%;
+  background:radial-gradient(circle,rgba(139,155,255,.20),transparent 66%);filter:blur(10px)}
+.glow2{position:absolute;width:620px;height:620px;right:-140px;bottom:-260px;border-radius:50%;
+  background:radial-gradient(circle,rgba(139,155,255,.12),transparent 68%)}
+.inner{position:relative;height:100%;display:flex;padding:54px 60px}
+.left{flex:1;display:flex;flex-direction:column;padding-right:40px}
+
+.brand{display:flex;align-items:center;gap:12px}
+.mark{width:40px;height:40px;border:1px solid #33333d;border-radius:5px;background:#131319;
+  display:grid;place-items:center}
+.brandname{font-size:17px;font-weight:600;letter-spacing:-.01em}
+.brandname span{color:#8f8f9c;font-weight:400}
+
+h1{margin-top:auto;font-size:46px;line-height:1.03;letter-spacing:-.035em;font-weight:600}
+h1 .accent{color:#8b9bff}
+p.sub{margin-top:20px;font-size:18px;line-height:1.5;color:#a1a1af;max-width:35ch}
+
+.chips{margin-top:30px;display:flex;gap:8px;flex-wrap:wrap}
+.chip{font-family:JB,monospace;font-size:12.5px;color:#a1a1af;border:1px solid #2a2a33;
+  background:#111117;border-radius:5px;padding:6px 11px}
+
+.foot{margin-top:auto;padding-top:26px;display:flex;align-items:center;gap:11px;
+  font-family:JB,monospace;font-size:14px;color:#8f8f9c}
+.foot b{font-family:SG;font-weight:600;color:#f4f4f7;font-size:15px}
+.foot .dot{width:3px;height:3px;border-radius:50%;background:#4a4a56}
+.foot .url{color:#8b9bff}
+
+.right{width:340px;display:flex;align-items:center}
+.frame{position:relative;width:340px;height:462px;border-radius:16px;overflow:hidden;
+  border:1px solid rgba(139,155,255,.34);box-shadow:0 26px 70px rgba(0,0,0,.6)}
+.frame img{width:100%;height:100%;object-fit:cover;display:block}
+.badge{position:absolute;left:12px;right:12px;bottom:12px;display:flex;align-items:center;
+  justify-content:space-between;background:rgba(8,8,13,.86);border:1px solid #2a2a33;
+  border-radius:9px;padding:9px 12px}
+.badge .n{font-size:14px;font-weight:600}
+.badge .r{font-family:JB,monospace;font-size:11px;color:#8f8f9c;margin-top:1px}
+.badge .loc{font-family:JB,monospace;font-size:11px;color:#8b9bff}
+</style>
+<div class="card">
+  <div class="grid"></div><div class="glow"></div><div class="glow2"></div>
+  <div class="inner">
+    <div class="left">
+      <div class="brand">
+        <div class="mark">
+          <svg width="22" height="22" viewBox="0 0 64 64" fill="none" stroke="#8b9bff" stroke-width="7">
+            <path d="M12 16.5H52"/><path d="M32 16.5V29.5"/><path d="M16 51.5V32.5L32 48.5L48 32.5V51.5"/>
+          </svg>
+        </div>
+        <div class="brandname">Tushar Moraye<span>, AI Product Engineer</span></div>
+      </div>
+
+      <h1>AI integrations and websites<br><span class="accent">that hold up in production.</span></h1>
+      <p class="sub">Eight years shipping AI and ML product surfaces. Websites, copilots, agent workflows, designed and built end to end.</p>
+
+      <div class="chips">
+        <div class="chip">Vercel ai-sdk</div>
+        <div class="chip">MCP Protocol</div>
+        <div class="chip">LLM Evals</div>
+        <div class="chip">Kubernetes</div>
+        <div class="chip">Core Web Vitals</div>
+      </div>
+
+      <div class="foot">
+        <b>tusharmoraye.com</b>
+        <div class="dot"></div><span>Mumbai / Remote</span>
+        <div class="dot"></div><span>8+ years</span>
+      </div>
+    </div>
+
+    <div class="right">
+      <div class="frame">
+        <img src="../src/assets/hero/tushar_portrait.jpg" alt="">
+        <div class="badge">
+          <div><div class="n">Tushar Moraye</div><div class="r">Senior AI Engineer @ Atlan</div></div>
+          <div class="loc">Mumbai</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
