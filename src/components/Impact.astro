@@ -20,8 +20,10 @@ const [lead, ...rest] = impact;
         <Image
           src={impactBg}
           alt="Abstract telemetry data stream backdrop"
-          width={1400}
-          height={800}
+          width={1376}
+          height={768}
+          widths={[360, 480, 720, 960, 1376]}
+          sizes="(min-width: 1024px) 845px, (min-width: 768px) 460px, 92vw"
           loading="lazy"
           decoding="async"
           class="plate absolute inset-0 size-full object-cover opacity-80 [html[data-theme='light']_&]:opacity-50"
