@@ -111,24 +111,24 @@ const workVisuals: Record<
 };
 ---
 
-<section id="work" class="relative py-24 md:py-28">
+<section id="work" class="relative border-t border-line pt-20 pb-0 md:pt-24">
   <div class="shell">
-    <h2 class="max-w-[18ch] text-[clamp(2rem,4.4vw,3.6rem)] font-semibold leading-[1.05] tracking-[-0.03em]">
+    <h2 class="max-w-[18ch] text-[clamp(1.9rem,3.6vw,3rem)] font-semibold leading-[1.05] tracking-[-0.03em]">
       Work that went live and stayed live.
     </h2>
   </div>
 
-  <div id="work-stack" class="relative mt-14">
+  <div id="work-stack" class="relative mt-6">
     {
       work.map((w) => {
         const slides = workVisuals[w.key] ?? [];
         return (
           <article
-            class="stack-card sticky top-0 flex min-h-[100dvh] items-center bg-bg py-16"
+            class="stack-card sticky top-0 flex min-h-[100dvh] items-start bg-bg pt-24 pb-16"
             data-key={w.key}
           >
-            <div class="shell grid w-full items-center gap-10 border-t border-line pt-10 lg:grid-cols-12 lg:gap-14">
-              <div class="lg:col-span-5">
+            <div class="shell grid w-full items-center gap-10 lg:grid-cols-12 lg:gap-14">
+              <div class="work-copy lg:col-span-5">
                 <p class="font-mono text-[13px] font-medium text-accent">{w.company}</p>
                 <h3 class="mt-5 text-[clamp(1.6rem,3vw,2.6rem)] font-semibold leading-[1.1] tracking-[-0.025em]">
                   {w.title}
@@ -167,23 +167,18 @@ const workVisuals: Record<
                 </div>
               </div>
 
-              <figure class="lg:col-span-7">
+              <figure class="work-visual lg:col-span-7">
                 <div
-                  class="project-carousel relative aspect-[4/3] w-full overflow-hidden rounded-[4px] border border-line bg-surface-2 shadow-2xl"
+                  class="project-carousel relative aspect-[4/3] w-full overflow-hidden rounded-[6px] [perspective:1400px]"
                   data-project={w.key}
                 >
                   {/* Slides */}
-                  <div class="slides-wrapper absolute inset-0 size-full">
+                  <div class="slides-wrapper absolute inset-0 size-full [transform-style:preserve-3d]">
                     {slides.map((slide, idx) => (
                       <div
-                        class="carousel-slide absolute inset-0 size-full"
+                        class="carousel-slide absolute inset-0 size-full overflow-hidden rounded-[6px] [backface-visibility:hidden] [-webkit-backface-visibility:hidden] will-change-transform"
                         data-slide-index={idx}
-                        data-caption={slide.caption}
-                        style={
-                          idx === 0
-                            ? "opacity: 1; z-index: 2;"
-                            : "opacity: 0; z-index: 1; pointer-events: none;"
-                        }
+                        style={idx === 0 ? "pointer-events: auto;" : "pointer-events: none;"}
                       >
                         <Image
                           src={slide.src}
@@ -194,34 +189,12 @@ const workVisuals: Record<
                           decoding="async"
                           class="plate size-full object-cover"
                         />
-                        <div
-                          class="pointer-events-none absolute inset-x-0 bottom-0 h-28 bg-gradient-to-t from-bg/95 via-bg/35 to-transparent"
-                          aria-hidden="true"
-                        />
                       </div>
                     ))}
                   </div>
 
-                  {/* Header Navigation: Tabs and Progress Pill */}
-                  <div class="pointer-events-auto absolute inset-x-3 top-3 z-[10] flex items-center justify-between gap-2">
-                    <div class="flex items-center gap-1 rounded-full border border-line/90 bg-bg/85 p-1 shadow-lg backdrop-blur-md">
-                      {slides.map((slide, idx) => (
-                        <button
-                          type="button"
-                          class={`carousel-tab flex cursor-pointer items-center gap-1.5 rounded-full px-2.5 py-1 font-mono text-[10px] transition-all ${
-                            idx === 0
-                              ? "is-active bg-accent font-semibold text-accent-ink shadow-xs"
-                              : "text-muted hover:bg-surface hover:text-ink"
-                          }`}
-                          data-target={idx}
-                          aria-label={`View ${slide.label}`}
-                        >
-                          <span class="opacity-70">{String(idx + 1).padStart(2, "0")}</span>
-                          <span class="hidden sm:inline">{slide.label}</span>
-                        </button>
-                      ))}
-                    </div>
-
+                  {/* Progress + step controls */}
+                  <div class="pointer-events-auto absolute inset-x-3 top-3 z-[40] flex items-center justify-end gap-2">
                     <div class="flex items-center gap-1.5 rounded-full border border-line/90 bg-bg/85 px-2.5 py-1 shadow-lg backdrop-blur-md">
                       <button
                         type="button"
@@ -240,17 +213,10 @@ const workVisuals: Record<
                       >
                         <Icon name="ph:caret-right-bold" class="size-3" />
                       </button>
+                      <span class="carousel-counter ml-0.5 border-l border-line/70 pl-2 font-mono text-[10px] text-muted">
+                        1 / {slides.length}
+                      </span>
                     </div>
-                  </div>
-
-                  {/* Footer: Dynamic Caption & Counter */}
-                  <div class="pointer-events-none absolute inset-x-3 bottom-3 z-[10] flex items-center justify-between gap-2">
-                    <p class="carousel-caption line-clamp-1 max-w-[85%] rounded-[4px] border border-line/70 bg-bg/90 px-3 py-1 font-mono text-[11px] text-ink backdrop-blur-md">
-                      {slides[0]?.caption}
-                    </p>
-                    <span class="carousel-counter rounded-[4px] border border-line/70 bg-bg/90 px-2 py-1 font-mono text-[10px] text-muted backdrop-blur-md">
-                      1 / {slides.length}
-                    </span>
                   </div>
                 </div>
               </figure>
@@ -302,6 +268,43 @@ const workVisuals: Record<
           },
         });
       });
+
+      // Entrance choreography per card: copy slides in from the left, the
+      // visual from the right. Same feel as the What I Do pillars.
+      const isDesktop = window.innerWidth >= 1024;
+
+      cards.forEach((card) => {
+        const copy = card.querySelector(".work-copy");
+        const visual = card.querySelector(".work-visual");
+        if (!copy || !visual) return;
+
+        gsap
+          .timeline({
+            scrollTrigger: {
+              trigger: card,
+              start: "top 80%",
+              toggleActions: "play none none reverse",
+            },
+          })
+          .from(copy, {
+            x: isDesktop ? -35 : 0,
+            y: isDesktop ? 0 : 20,
+            opacity: 0,
+            duration: 0.8,
+            ease: "power3.out",
+          })
+          .from(
+            visual,
+            {
+              x: isDesktop ? 35 : 0,
+              y: isDesktop ? 0 : 25,
+              opacity: 0,
+              duration: 0.85,
+              ease: "power3.out",
+            },
+            "-=0.5",
+          );
+      });
     }, root);
   };
 
@@ -313,14 +316,35 @@ const workVisuals: Record<
 
   carousels.forEach((carousel) => {
     const slides = carousel.querySelectorAll<HTMLElement>(".carousel-slide");
-    const tabs = carousel.querySelectorAll<HTMLButtonElement>(".carousel-tab");
     const prevBtn = carousel.querySelector<HTMLButtonElement>(".carousel-prev");
     const nextBtn = carousel.querySelector<HTMLButtonElement>(".carousel-next");
     const progressBar = carousel.querySelector<HTMLElement>(".carousel-progress");
-    const captionEl = carousel.querySelector<HTMLElement>(".carousel-caption");
     const counterEl = carousel.querySelector<HTMLElement>(".carousel-counter");
 
     if (slides.length <= 1) return;
+
+    // A real carousel ring, like the GSAP 3D carousel reference: the slides are
+    // spaced evenly around a drum and the drum itself spins. Panels facing away
+    // are hidden by backface-visibility, so only the front image is ever seen.
+    const wrapper = carousel.querySelector<HTMLElement>(".slides-wrapper");
+    const step = 360 / slides.length;
+    let radius = 0;
+    let ringRotation = 0;
+
+    const layoutRing = () => {
+      // Tight radius: with only three panels a wide drum leaves a hole in the
+      // middle of the turn, so keep them close enough to overlap the centre.
+      radius = Math.round(carousel.offsetWidth * 0.28);
+      const origin = `50% 50% -${radius}px`;
+      gsap.set(wrapper, { transformStyle: "preserve-3d", transformOrigin: origin });
+      slides.forEach((slide, idx) => {
+        gsap.set(slide, { rotateY: idx * step, transformOrigin: origin });
+      });
+      gsap.set(wrapper, { rotateY: ringRotation });
+    };
+
+    layoutRing();
+    window.addEventListener("resize", layoutRing);
 
     let currentIndex = 0;
     let isHovered = false;
@@ -349,64 +373,25 @@ const workVisuals: Record<
     const goToSlide = (targetIndex: number) => {
       if (targetIndex === currentIndex) return;
 
-      const currentSlide = slides[currentIndex];
+      const outgoing = slides[currentIndex];
       const targetSlide = slides[targetIndex];
-      const newCaption = targetSlide.dataset.caption ?? "";
 
-      // GSAP smooth crossfade + subtle depth scale
+      // Shortest way round the drum, so next spins one way and prev the other.
+      let delta = ((targetIndex - currentIndex + slides.length) % slides.length) * step;
+      if (delta > 180) delta -= 360;
+      ringRotation -= delta;
+
+      gsap.set(outgoing, { pointerEvents: "none" });
+      gsap.set(targetSlide, { pointerEvents: "auto" });
+
       if (reduce.matches) {
-        gsap.set(currentSlide, { opacity: 0, zIndex: 1, pointerEvents: "none" });
-        gsap.set(targetSlide, { opacity: 1, zIndex: 2, pointerEvents: "auto" });
+        gsap.set(wrapper, { rotateY: ringRotation });
       } else {
-        gsap.to(currentSlide, {
-          opacity: 0,
-          scale: 0.98,
-          duration: 0.45,
+        gsap.to(wrapper, {
+          rotateY: ringRotation,
+          duration: 0.9,
           ease: "power2.inOut",
-          onComplete: () => {
-            gsap.set(currentSlide, { zIndex: 1, pointerEvents: "none" });
-          },
         });
-
-        gsap.fromTo(
-          targetSlide,
-          { opacity: 0, scale: 1.04, zIndex: 2 },
-          {
-            opacity: 1,
-            scale: 1.0,
-            duration: 0.55,
-            ease: "power2.out",
-            pointerEvents: "auto",
-          },
-        );
-      }
-
-      // Update tabs
-      tabs.forEach((tab, idx) => {
-        if (idx === targetIndex) {
-          tab.classList.add("is-active", "bg-accent", "font-semibold", "text-accent-ink", "shadow-xs");
-          tab.classList.remove("text-muted", "hover:bg-surface", "hover:text-ink");
-        } else {
-          tab.classList.remove("is-active", "bg-accent", "font-semibold", "text-accent-ink", "shadow-xs");
-          tab.classList.add("text-muted", "hover:bg-surface", "hover:text-ink");
-        }
-      });
-
-      // Update caption with quick fade
-      if (captionEl) {
-        if (reduce.matches) {
-          captionEl.textContent = newCaption;
-        } else {
-          gsap.to(captionEl, {
-            opacity: 0,
-            y: 4,
-            duration: 0.15,
-            onComplete: () => {
-              captionEl.textContent = newCaption;
-              gsap.to(captionEl, { opacity: 1, y: 0, duration: 0.25 });
-            },
-          });
-        }
       }
 
       // Update counter
@@ -419,13 +404,6 @@ const workVisuals: Record<
     };
 
     // User interactions
-    tabs.forEach((tab) => {
-      tab.addEventListener("click", () => {
-        const target = Number(tab.dataset.target ?? 0);
-        goToSlide(target);
-      });
-    });
-
     prevBtn?.addEventListener("click", () => {
       const prevIndex = (currentIndex - 1 + slides.length) % slides.length;
       goToSlide(prevIndex);
