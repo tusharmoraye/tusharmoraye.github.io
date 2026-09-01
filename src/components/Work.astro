@@ -178,6 +178,7 @@ const workVisuals: Record<
                       <div
                         class="carousel-slide absolute inset-0 size-full overflow-hidden rounded-[6px] [backface-visibility:hidden] [-webkit-backface-visibility:hidden] will-change-transform"
                         data-slide-index={idx}
+                        aria-hidden={idx === 0 ? undefined : "true"}
                         style={idx === 0 ? "pointer-events: auto;" : "pointer-events: none;"}
                       >
                         <Image
@@ -215,7 +216,11 @@ const workVisuals: Record<
                       >
                         <Icon name="ph:caret-right-bold" class="size-3" />
                       </button>
-                      <span class="carousel-counter ml-0.5 border-l border-line/70 pl-2 font-mono text-[10px] text-muted">
+                      <span
+                        class="carousel-counter ml-0.5 border-l border-line/70 pl-2 font-mono text-[10px] text-muted"
+                        aria-live="polite"
+                        aria-atomic="true"
+                      >
                         1 / {slides.length}
                       </span>
                     </div>
@@ -385,6 +390,11 @@ const workVisuals: Record<
 
       gsap.set(outgoing, { pointerEvents: "none" });
       gsap.set(targetSlide, { pointerEvents: "auto" });
+
+      // Only the slide facing the viewer is in the a11y tree. Without this a
+      // screen reader reads every project image in the deck as if all were shown.
+      outgoing.setAttribute("aria-hidden", "true");
+      targetSlide.removeAttribute("aria-hidden");
 
       if (reduce.matches) {
         gsap.set(wrapper, { rotateY: ringRotation });

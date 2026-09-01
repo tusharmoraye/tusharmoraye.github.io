@@ -32,7 +32,9 @@ const links = [
           <path d="M16 51.5V32.5L32 48.5L48 32.5V51.5" />
         </svg>
       </span>
-      <span class="hidden text-sm font-semibold tracking-tight sm:block">
+      <!-- Stays in the accessibility tree at every width; only the pixels go away
+           below sm, so the link always has a discernible name. -->
+      <span class="sr-only text-sm font-semibold tracking-tight sm:not-sr-only sm:block">
         {site.name}<span class="text-muted font-normal">, {site.role}</span>
       </span>
     </a>
@@ -87,6 +89,9 @@ const links = [
 <div
   id="mobile-menu"
   hidden
+  role="dialog"
+  aria-modal="true"
+  aria-label="Site menu"
   class="fixed inset-0 z-[70] bg-bg/95 backdrop-blur-xl lg:hidden"
 >
   <div class="shell flex h-[68px] items-center justify-end">
@@ -139,11 +144,18 @@ const links = [
     { rootMargin: "-80px 0px 0px 0px" },
   ).observe(sentinel);
 
+  // The overlay covers the page, so everything behind it is made inert while it
+  // is open. That takes the background out of the tab order and the a11y tree
+  // in one step, instead of hand rolling a focus trap.
+  const behind = [nav, document.querySelector("main"), document.querySelector("footer")];
+
   const setMenu = (open: boolean) => {
     menu.hidden = !open;
     openBtn.setAttribute("aria-expanded", String(open));
     document.documentElement.style.overflow = open ? "hidden" : "";
+    behind.forEach((el) => el?.toggleAttribute("inert", open));
     if (open) closeBtn.focus();
+    else openBtn.focus();
   };
   openBtn.addEventListener("click", () => setMenu(true));
   closeBtn.addEventListener("click", () => setMenu(false));
